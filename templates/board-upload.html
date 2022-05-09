@@ -64,7 +64,7 @@
         }
 
         .button:hover {
-           background-color: transparent;
+            background-color: transparent;
         }
 
         .button > button {
@@ -108,6 +108,34 @@
 
         function submit() {
 
+        }
+
+        function enroll_board() {
+            let title = $('#title').val()
+            let cost = $("#cost").val()
+            let image = $('#image')[0].files[0]
+            let content = $("#content").val()
+            let form_data = new FormData()
+            form_data.append("title", title)
+            form_data.append("cost", cost)
+            form_data.append("image", image)
+            form_data.append("content", content)
+
+            $.ajax({
+                type: "POST",
+                url: "/api/board/write",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response["status_code"] === 201) {
+                       location.href = `http://localhost:5000/board/write/success`;
+                    } else {
+                        location.href = `http://localhost:5000/board/write/fail`;
+                    }
+                }
+            });
         }
     </script>
 </head>
@@ -161,7 +189,7 @@
             </tr>
         </table>
         <div class="button">
-            <button onclick="submit()">게시글 등록</button>
+            <button onclick="enroll_board()">게시글 등록</button>
         </div>
     </div>
 </main><!-- main -->
