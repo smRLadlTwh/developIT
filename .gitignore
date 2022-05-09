@@ -7,7 +7,7 @@ __pycache__/
 .idea/
 
 # environment configs
-configs
+/configs
 
 # C extensions
 *.so
