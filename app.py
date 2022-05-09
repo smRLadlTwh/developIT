@@ -18,21 +18,26 @@ else:
 db = client.developITdb
 
 
-# 게시글 페이지 띄우기
+# -------------------- 페이지 반환 --------------------- #
+# 게시글 페이지 반환
 @app.route("/board")
 def board_page():
     return render_template('board.html')
 
 
+# 메인 페이지 반환
+@app.route("/")
+def index():
+    return render_template('index.html')
+
+
+# -------------------- API --------------------- #
+
+# 게시글 업로드 API
 @app.route("/api/board/write", methods=['POST'])
 def board_write():
     response = board.board_write()
     return jsonify(response)
-
-
-@app.route("/")
-def index():
-    return render_template('index.html')
 
 
 if __name__ == '__main__':
