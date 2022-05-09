@@ -6,6 +6,9 @@ __pycache__/
 # intellij configs
 .idea/
 
+# environment configs
+configs/
+
 # C extensions
 *.so
 
