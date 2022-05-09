@@ -6,6 +6,9 @@ __pycache__/
 # intellij configs
 .idea/
 
+# environment configs
+configs/
+
 # C extensions
 *.so
 
@@ -130,3 +133,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# environment configs
+configs/
