@@ -1,10 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <meta charset="utf-8">
+    <title>sign-up</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gamja+Flower&family=Jua&display=swap"
+          rel="stylesheet">
 
-</body>
-</html>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <style>
+        * {
+            font-family: 'Do Hyeon', sans-serif
+        }
+
+        .card-header {
+            text-align: center;
+            font-size: 40px;
+        }
+
+        label {
+            display: block;
+        }
+    </style>
+</head>
+<div class="container">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card">
+                <div class="card-header">가입정보 입력하기</div>
+
+                <div class="card-body">
+                    <form class="form-horizontal" method="post" action="#">
+
+                        <div class="form-group">
+                            <label for="email" class="cols-sm-2 control-label">이메일</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-envelope fa"
+                                                                           aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" name="email" id="email"
+                                           placeholder="이메일을 입력해주세요."/>
+                                    <div id="btn-check-dup" class="control is-hidden">
+                                        <button type="button" class="btn btn-primary">중복확인</button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password" class="cols-sm-2 control-label">비밀번호</label>
+                                    <div class="cols-sm-10">
+                                        <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-lock fa-lg"
+                                                                           aria-hidden="true"></i></span>
+                                            <input type="password" class="form-control" name="password"
+                                                   id="password"
+                                                   placeholder="비밀번호 (영문+숫자+특수문자 8자이상)"/>
+                                        </div>
+
+                                        <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-lock fa-lg"
+                                                                                   aria-hidden="true"></i></span>
+                                            <input type="password" class="form-control" name="confirm" id="confirm"
+                                                   placeholder="비밀번호 확인"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="name" class="cols-sm-2 control-label">이름</label>
+                                    <div class="cols-sm-10">
+                                        <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-user fa"
+                                                                                   aria-hidden="true"></i></span>
+                                            <input type="text" class="form-control" name="name" id="name"
+                                                   placeholder="이름을 입력해주세요."/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phone_number" class="cols-sm-2 control-label">전화번호</label>
+                                    <div class="cols-sm-10">
+                                        <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-users fa"
+                                                                                   aria-hidden="true"></i></span>
+                                            <input type="text" class="form-control" name="phone_number"
+                                                   id="phone_number"
+                                                   placeholder="010-1234-5678"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--                            약관동의                -->
+                                <label for="agree_all">
+                                    <input type="checkbox" name="agree_all" id="agree_all">
+                                    <span>모두 동의합니다</span>
+                                </label>
+                                <label for="agree">
+                                    <input type="checkbox" name="agree" value="1">
+                                    <span>이용약관 동의<strong>(필수)</strong></span>
+                                </label>
+                                <label for="agree">
+                                    <input type="checkbox" name="agree" value="2">
+                                    <span>개인정보 수집, 이용 동의<strong>(필수)</strong></span>
+                                </label>
+                                <label for="agree">
+                                    <input type="checkbox" name="agree" value="3">
+                                    <span>개인정보 이용 동의<strong>(필수)</strong></span>
+                                </label>
+                                <label for="agree">
+                                    <input type="checkbox" name="agree" value="4">
+                                    <span>이벤트, 혜택정보 수신동의<strong class="select_disable">(선택)</strong></span>
+                                </label>
+
+
+                                <!--                            약관동의                -->
+                                <div class="form-group ">
+                                    <button type="button" class="btn btn-primary btn-lg btn-block login-button">
+                                        회원가입하기
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
