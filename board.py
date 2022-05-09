@@ -8,13 +8,15 @@ import os
 
 from pymongo import MongoClient
 
-SECRET_KEY = ''
+if os.environ['env'] == 'prod':
+    from configs import config_prod as config
+else:
+    from configs import config_local as config
 
-# MongoDB 접속
-client = MongoClient('localhost', 27017)
-# 접속할 db 명 지정 -> dbsparta, 해당 이름의 db 가 없으면 자동 생성
+client = MongoClient(f'{config.host}', 27017, username=f'{config.user}', password=f'{config.password}')
 db = client.developITdb
 
+SECRET_KEY = config.security
 
 # 게시물을 등록하는 API
 def board_write():
