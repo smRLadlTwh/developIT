@@ -11,7 +11,12 @@ function tabs(parse) {
     tab.forEach(function (node) {
         node.style.display = 'none';
     });
-    tab[parse].style.display='block';
+    if (parse == 2) {
+        tab[parse].style.display='flex';
+    }
+    else {
+        tab[parse].style.display='block';
+    }
 }
 tabs(0);
 
