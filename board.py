@@ -120,14 +120,14 @@ def board_show():
         # if user_info is None:
         #     abort(404, '회원 정보가 존재하지 않습니다.')
 
-        if request.args.get('page') is not None:
+        if request.args.get('page') is not None and request.args.get('page') != 'null':
             page = int(request.args.get('page'))
         else:
             page = 1
         if request.args.get('pageSize') is not None:
             page_size = int(request.args.get('pageSize'))
         else:
-            page_size = 10
+            page_size = 5
 
         # 검색어가 있는 경우
         if request.args.get('search') is not None or request.args.get('search') == '':

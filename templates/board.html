@@ -18,6 +18,12 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
 
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
     <script src="/static/includeHTML.js"></script>
     <script src="/static/includeRouter.js"></script>
 
@@ -55,6 +61,130 @@
             margin-left: 10px;
         }
     </style>
+
+    <script>
+        $(document).ready(function () {
+            let params = new URLSearchParams(window.location.search);
+            let page = params.get("page");
+            let searchText = params.get("search");
+            if (searchText == null) {
+                boardList(page, '');
+            } else {
+                $('#search-input').val(searchText)
+                boardList(page, searchText);
+            }
+        });
+
+        function nextPage() {
+            let params = new URLSearchParams(window.location.search);
+            let page = parseInt(params.get("page")) + 1;
+            let searchText = params.get("search");
+            if (searchText == null) {
+                location.href = `/board?page=${page}`;
+            } else {
+                location.href = `/board?page=${page}&search=${searchText}`;
+            }
+        }
+
+        function prePage() {
+            let params = new URLSearchParams(window.location.search);
+            let page = parseInt(params.get("page")) - 1;
+            let searchText = params.get("search");
+            if (searchText == null) {
+                location.href = `/board?page=${page}`;
+            } else {
+                location.href = `/board?page=${page}&search=${searchText}`;
+            }
+        }
+
+        function search() {
+            let searchText = $('#search-input').val();
+            if (searchText === '') {
+                location.href = `/board?page=1`;
+            } else {
+                location.href = `/board?page=1&search=${searchText}`;
+            }
+        }
+
+        function boardList(page, searchText) {
+            $('#board-list').empty();
+            let pageSize = 5;
+            $.ajax({
+                type: "GET",
+                url: `/api/board?page=${page}&pageSize=${pageSize}&search=${searchText}`,
+                data: {},
+                success: function (response) {
+                    let boards = response['data']['boards'];
+                    let total = response['total'];
+
+                    for (let i = 0; i < boards.length; i++) {
+                        let title = boards[i]['board']['title'];
+                        let content = boards[i]['board']['content'];
+                        let cost = boards[i]['board']['cost'];
+                        let created_at = boards[i]['board']['created_at'].split(" ")[0];
+                        let image_url = boards[i]['board']['image_url'];
+
+                        let writer_name = boards[i]['user']['name'];
+
+                        let tmp_html = ``;
+
+                        if(image_url = 'default_image.jpeg') {
+                             tmp_html = `
+                        <article class="clear-after white-card">
+                            <div class="column three">
+                                <img src="/static/logo.png" alt="" class="thumbnail">
+                            </div>
+                            <div class="column nine last">
+                                <h2><a href="#">${title}</a></h2>
+                                <h5 class="meta-post">
+                                    <p class="writer">작성자 : ${writer_name} -
+                                        <time datetime="2013-11-10">${created_at}</time>
+                                    </p>
+                                </h5>
+                                <p> ${cost} 원 </p>
+                                <p>${content}</p>
+                            </div><!-- column nine -->
+                        </article>
+                        `;
+                        } else {
+                             tmp_html = `
+                        <article class="clear-after white-card">
+                            <div class="column three">
+                                <img src="https://devit-bucket.s3.ap-northeast-2.amazonaws.com/${image_url}" alt="" class="thumbnail">
+                            </div>
+                            <div class="column nine last">
+                                <h2><a href="#">${title}</a></h2>
+                                <h5 class="meta-post">
+                                    <p class="writer">작성자 : ${writer_name} -
+                                        <time datetime="2013-11-10">${created_at}</time>
+                                    </p>
+                                </h5>
+                                <p> ${cost} 원 </p>
+                                <p>${content}</p>
+                            </div><!-- column nine -->
+                        </article>
+                        `;
+                        }
+
+                        $('#board-list').append(tmp_html);
+
+                        // 페이지 이동 버튼 활성화/비활성화
+                        if (page === "1") {
+                            $('#pre-button').prop('disabled', true);
+                        } else {
+                            $('#pre-button').prop('disabled', false);
+                        }
+
+                        if (parseInt(total) <= parseInt(page) * parseInt(pageSize)) {
+                            $('#next-button').prop('disabled', true);
+                        } else {
+                            $('#next-button').prop('disabled', false);
+                        }
+                    }
+                }
+            })
+        }
+    </script>
 </head>
 
 <body class="search list-style">
@@ -67,20 +197,7 @@
                     <h4>68 results for {검색어}</h4>
                 </div>
                 <div id="board-list">
-                    <article class="clear-after white-card">
-                        <div class="column three">
-                            <img src="/static/example.jpeg" alt="" class="thumbnail">
-                        </div><!-- column three -->
-                        <div class="column nine last">
-                            <h2><a href="#">대학생 팀프로젝트 설계 리뷰 요청</a></h2>
-                            <h5 class="meta-post">
-                                <p class="writer">작성자 : 이다혜 -
-                                    <time datetime="2013-11-10">2013년 5월 8일</time>
-                                </p>
-                            </h5>
-                            <p>졸업반 4명으로 이루어진 안드로이드 프로젝트 설계 리뷰 요청합니다. <br/> 조건 : 10년차 이상의 시니어 개발자</p>
-                        </div><!-- column nine -->
-                    </article>
+
                 </div>
                 <br/>
                 <div id="pagination">
