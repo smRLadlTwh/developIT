@@ -9,7 +9,6 @@
     <title>DevIT</title>
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/layers.min.css" media="screen">
-    <link rel="stylesheet" href="/static/font-awesome.min.css" media="screen">
     <link rel="stylesheet" href="/static/board.css" media="screen">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +16,6 @@
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-     <script src="env.js"></script>
     <style>
         * {
             font-family: 'Do Hyeon', sans-serif;
@@ -93,7 +91,6 @@
     </style>
 
     <script>
-        const host = get_host()
         function inputNumberFormat(obj) {
             obj.value = comma(uncomma(obj.value));
         }
@@ -132,9 +129,7 @@
                 processData: false,
                 success: function (response) {
                     if (response["status_code"] === 201) {
-                       location.href = `${host}/board/write/success`;
-                    } else {
-                        location.href = `${host}/board/write/fail`;
+                       location.href = `/board/write/success`;
                     }
                 }
             });
@@ -244,11 +239,6 @@
         </div><!-- row-content -->
     </div><!-- row -->
 </footer>
-
 <script src="https://code.jquery.com/jquery.js"></script>
-<script src="js/plugins.js"></script>
-<script src="js/beetle.js"></script>
-
 </body>
-
 </html>
