@@ -27,7 +27,12 @@
             display: block;
         }
     </style>
+
+
+    </script>
+
 </head>
+<body>
 <div class="container">
 
     <div class="row justify-content-center">
@@ -35,6 +40,9 @@
         <div class="col-md-8">
 
             <div class="card">
+                <div class="logo" style="text-align : center;">
+                    <img src="/static/logo.png" width="250" pad alt="">
+                </div>
                 <div class="card-header">가입정보 입력하기</div>
 
                 <div class="card-body">
@@ -49,7 +57,12 @@
                                     <input type="text" class="form-control" name="email" id="email"
                                            placeholder="이메일을 입력해주세요."/>
                                     <div id="btn-check-dup" class="control is-hidden">
+<<<<<<< HEAD
+                                        <button type="button" class="btn btn-primary" onclick="check_dup()">중복확인
+                                        </button>
+=======
                                         <button type="button" class="btn btn-primary ">중복확인</button>
+>>>>>>> f305bcf22db234bbac7ee55e2e6c515ac898d9df
                                     </div>
                                 </div>
 
@@ -99,29 +112,31 @@
                                 </div>
 
                                 <!--                            약관동의                -->
-                                <label for="agree_all">
-                                    <input type="checkbox" name="agree_all" id="agree_all">
-                                    <span>모두 동의합니다</span>
-                                </label>
-                                <label for="agree">
-                                    <input type="checkbox" name="agree" value="1">
-                                    <span>이용약관 동의<strong>(필수)</strong></span>
-                                </label>
-                                <label for="agree">
-                                    <input type="checkbox" name="agree" value="2">
-                                    <span>개인정보 수집, 이용 동의<strong>(필수)</strong></span>
-                                </label>
-                                <label for="agree">
-                                    <input type="checkbox" name="agree" value="3">
-                                    <span>개인정보 이용 동의<strong>(필수)</strong></span>
-                                </label>
-                                <label for="agree">
-                                    <input type="checkbox" name="agree" value="4">
-                                    <span>이벤트, 혜택정보 수신동의<strong class="select_disable">(선택)</strong></span>
-                                </label>
-
-
+                                <div class="check_group">
+                                    <label for="agree_all">
+                                        <input type="checkbox" name="agree_all" id="agree_all">
+                                        <span>모두 동의합니다</span>
+                                    </label>
+                                    <label for="agree">
+                                        <input type="checkbox" name="agree" value="1" class="normal">
+                                        <span>이용약관 동의<strong>(필수)</strong></span>
+                                    </label>
+                                    <label for="agree">
+                                        <input type="checkbox" name="agree" value="2" class="normal">
+                                        <span>개인정보 수집, 이용 동의<strong>(필수)</strong></span>
+                                    </label>
+                                    <label for="agree">
+                                        <input type="checkbox" name="agree" value="3" class="normal">
+                                        <span>개인정보 이용 동의<strong>(필수)</strong></span>
+                                    </label>
+                                    <label for="agree">
+                                        <input type="checkbox" name="agree" value="4" class="normal">
+                                        <span>이벤트, 혜택정보 수신동의<strong class="select_disable">(선택)</strong></span>
+                                    </label>
+                                </div>
                                 <!--                            약관동의                -->
+
+
                                 <div class="form-group ">
                                     <button type="button" class="btn btn-primary btn-lg btn-block login-button">
                                         회원가입하기
@@ -135,3 +150,5 @@
         </div>
     </div>
 </div>
+</body>
+</html>
