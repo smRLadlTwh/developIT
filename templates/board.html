@@ -54,6 +54,22 @@
             float: left;
         }
 
+        .board-write-button {
+            width: 100%;
+            border: 0;
+            font-size: 15px;
+            padding: 10px;
+        }
+
+        .board-write-button:hover {
+            width: 100%;
+            border: 0;
+            font-size: 15px;
+            padding: 10px;
+             background-color: #337ab7;
+            color: white;
+        }
+
         .white-card {
             background-color: white;
             margin-top: 30px;
@@ -122,7 +138,7 @@
 
         function search() {
             let searchText = $('#search-input').val();
-            if (searchText === '') {
+            if (searchText === '' || searchText === undefined) {
                 location.href = `/board?page=1`;
             } else {
                 location.href = `/board?page=1&search=${searchText}`;
@@ -132,6 +148,8 @@
         function boardList(page, searchText) {
             $('#board-list').empty();
             let pageSize = 5;
+
+
             $.ajax({
                 type: "GET",
                 url: `/api/board?page=${page}&pageSize=${pageSize}&search=${searchText}`,
@@ -139,6 +157,10 @@
                 success: function (response) {
                     let boards = response['data']['boards'];
                     let total = response['total'];
+
+                    if(searchText !== '') {
+                        $('#search-text').text(`${total} results for ${searchText}`)
+                    }
 
                     for (let i = 0; i < boards.length; i++) {
                         let title = boards[i]['board']['title'];
@@ -206,7 +228,7 @@
                     tmp_html = `<button type="button" class="btn btn-white" onclick="nextPage()" id="next-button">></button>`
                     $('#button-list').append(tmp_html)
 
-                    let button_list_size = 30 * (page_list + 3)
+                    let button_list_size = 40 * (page_list + 3)
                     $('.pagination').css({'margin': 'auto', 'width': `${button_list_size}px`, 'display': 'block'})
 
                     $(`#page-button-${page}`).prop('disabled', true);
@@ -237,7 +259,7 @@
         <div class="row-content buffer-left buffer-right buffer-bottom clear-after">
             <div class="column nine">
                 <div class="search-results">
-                    <h4>68 results for {검색어}</h4>
+                    <h4 id="search-text"></h4>
                 </div>
                 <div id="board-list">
 
@@ -249,9 +271,9 @@
             </div><!-- column nine -->
             <aside role="complementary" class="sidebar column three last">
                 <div class="widget widget_search">
-                    <form role="search">
+                    <form role="search" onsubmit="return false">
                         <span class="pre-input"><i class="fa fa-search" aria-hidden="true"></i></span>
-                        <input type="text" placeholder="Search..." value="" class="plain buffer">
+                        <input id='search-input' type="text" placeholder="Search..." value="" class="plain buffer" onkeyup="if(window.event.keyCode==13){search()}">
                     </form>
                 </div>
                 <div class="widget">
