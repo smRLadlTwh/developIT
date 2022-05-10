@@ -110,15 +110,15 @@ def board_write():
 
 # 게시물 전체 보여주기
 def board_show():
-    # token = request.cookies.get('token')
-    # if token is None:
-    #     abort(404, '토큰 정보가 존재하지 않습니다.')
+    token = request.cookies.get('token')
+    if token is None:
+        abort(404, '토큰 정보가 존재하지 않습니다.')
     try:
         # 유저 정보 식별
-        # payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        # user_info = db.user.find_one({"uuid": payload["uuid"]})
-        # if user_info is None:
-        #     abort(404, '회원 정보가 존재하지 않습니다.')
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.user.find_one({"uuid": payload["uuid"]})
+        if user_info is None:
+            abort(404, '회원 정보가 존재하지 않습니다.')
 
         if request.args.get('page') is not None and request.args.get('page') != 'null':
             page = int(request.args.get('page'))
