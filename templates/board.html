@@ -249,6 +249,10 @@
                 }
             })
         }
+
+        function boardWrite() {
+            location.href = `/board-upload`;
+        }
     </script>
 </head>
 
@@ -292,7 +296,7 @@
                     </ul>
                 </div>
                 <div class="widget">
-                    <button class="board-write-button">구인 글 작성</button>
+                    <button class="board-write-button" onclick="boardWrite()">구인 글 작성</button>
                 </div>
             </aside>
         </div><!-- row-content -->
