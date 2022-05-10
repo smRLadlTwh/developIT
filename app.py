@@ -1,8 +1,8 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from pymongo import MongoClient
-import hashlib
 import os
 import board
+import sign
 
 app = Flask(__name__)
 
@@ -28,7 +28,18 @@ def board_page():
 # 메인 페이지 반환
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template('login.html')
+
+
+# 로그인 페이지 반환
+# @app.route("/login")
+# def index():
+#     return render_template('login.html')
+
+# 회원가입 반환
+@app.route("/sign-up")
+def sign_up_page():
+    return render_template('sign-up.html')
 
 
 # 게시글 업로드 페이지 반환
@@ -49,6 +60,18 @@ def board_upload_fail_page():
     return render_template('board-upload-fail.html')
 
 
+# 페이지 내 header 부분 반환
+@app.route("/header")
+def header():
+    return render_template('header.html')
+
+
+# 페이지 내 footer 부분 반환
+@app.route("/footer")
+def footer():
+    return render_template('footer.html')
+
+
 # -------------------- API --------------------- #
 
 # 게시글 업로드 API
@@ -62,6 +85,12 @@ def board_write():
 @app.route("/api/board", methods=['GET'])
 def board_entire_show():
     response = board.board_show()
+
+
+# 로그인 API
+@app.route('/api/login', methods=['POST'])
+def sign_in():
+    response = sign.sign_in()
     return jsonify(response)
 
 
