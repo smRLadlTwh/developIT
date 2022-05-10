@@ -26,6 +26,8 @@ SECRET_KEY = config.security
 # 게시물을 등록하는 API
 def board_write():
     token = request.cookies.get('token')
+    if token is None:
+        abort(404, '토큰 정보가 존재하지 않습니다.')
     try:
         # 유저 정보 식별
         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
