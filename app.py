@@ -30,6 +30,7 @@ def board_page():
 def index():
     return render_template('login.html')
 
+
 # 로그인 페이지 반환
 # @app.route("/login")
 # def index():
@@ -39,8 +40,6 @@ def index():
 @app.route("/sign-up")
 def sign_up_page():
     return render_template('sign-up.html')
-
-
 
 
 # 게시글 업로드 페이지 반환
@@ -79,6 +78,13 @@ def footer():
 @app.route("/api/board/write", methods=['POST'])
 def board_write():
     response = board.board_write()
+    return jsonify(response)
+
+
+# 게시글 전체 보여주기 API
+@app.route("/api/board", methods=['GET'])
+def board_entire_show():
+    response = board.board_show()
     return jsonify(response)
 
 
