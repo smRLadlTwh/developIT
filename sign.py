@@ -1,3 +1,5 @@
+import uuid
+
 from flask import jsonify, request
 from datetime import datetime, timedelta
 import jwt
@@ -19,13 +21,14 @@ db = client.developITdb
 SECRET_KEY = config.security
 
 
+# 로그인
 def sign_in():
-    user_id = request.form['id']
+    user_email = request.form['email']
     user_pw = request.form['pw']
 
     # 패스워드를 해시함수 이용하여 해시값을 만듦
     pw_hash = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
-    user = db.user.find_one({'user.id': user_id, 'user.password': pw_hash})
+    user = db.user.find_one({'user.e_mail': user_email, 'user.password': pw_hash})
 
     if user is not None:
         payload = {
@@ -38,3 +41,38 @@ def sign_in():
         return {"result": "success", "status_code": 200, "token": token}
     else:
         return {"result": "fail", "status_code": 401, "error_message": 'BAD_CREDENTIAL'}
+
+
+# 회원가입
+def sign_up():
+    user_email = request.form['email']
+    user_pw = request.form['password']
+    name = request.form['name']
+    phone_number = request.form['phone_number']
+    phone_number_replace = phone_number.replace("-", "")
+
+    now = datetime.now()
+    time = now.strftime('%Y-%m-%d %H:%M:%S')
+
+    password_hash = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
+    doc = {
+        'user': {
+            "uuid": str(uuid.uuid4()),
+            "e_mail": user_email,
+            "password": password_hash,
+            "name": name,
+            "phone_number": phone_number_replace,
+            "created_at": time
+        }
+    }
+    db.user.insert_one(doc)
+
+    return {'result': 'success', 'status_code': 201}
+
+
+# 이메일 중복 체크
+def email_duplicate_check():
+    user_email = request.form['email']
+    exists = bool(db.user.find_one({"user.e_mail": user_email}))
+
+    return {'result': 'success', 'exists': exists}

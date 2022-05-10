@@ -94,5 +94,19 @@ def sign_in():
     return jsonify(response)
 
 
+# 회원가입 API
+@app.route('/api/sign-up', methods=['POST'])
+def sign_up():
+    response = sign.sign_up()
+    return jsonify(response)
+
+
+# 이메일 중복 체크
+@app.route('/api/email-duplicate check', methods=['POST'])
+def email_duplicate_check():
+    response = sign.email_duplicate_check()
+    return jsonify(response)
+
+
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
