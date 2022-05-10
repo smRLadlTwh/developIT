@@ -28,7 +28,19 @@ def board_page():
 # 메인 페이지 반환
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template('login.html')
+
+# 로그인 페이지 반환
+# @app.route("/login")
+# def index():
+#     return render_template('login.html')
+
+# 회원가입 반환
+@app.route("/sign-up")
+def sign_up_page():
+    return render_template('sign-up.html')
+
+
 
 
 # -------------------- API --------------------- #
