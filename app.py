@@ -85,6 +85,7 @@ def board_write():
 @app.route("/api/board", methods=['GET'])
 def board_entire_show():
     response = board.board_show()
+    return jsonify(response)
 
 
 # 로그인 API
