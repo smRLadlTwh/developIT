@@ -49,6 +49,18 @@ def board_upload_fail_page():
     return render_template('board-upload-fail.html')
 
 
+# 페이지 내 header 부분 반환
+@app.route("/header")
+def header():
+    return render_template('header.html')
+
+
+# 페이지 내 footer 부분 반환
+@app.route("/footer")
+def footer():
+    return render_template('footer.html')
+
+
 # -------------------- API --------------------- #
 
 # 게시글 업로드 API
