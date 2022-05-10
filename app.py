@@ -1,8 +1,7 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from pymongo import MongoClient
-import hashlib
 import os
-import board
+import board, favorites
 
 app = Flask(__name__)
 
@@ -42,6 +41,11 @@ def profile():
 @app.route("/api/board/write", methods=['POST'])
 def board_write():
     response = board.board_write()
+    return jsonify(response)
+
+@app.route('/api/favorites', methods=['GET'])
+def board_entire_show():
+    response = favorites.show_favorite()
     return jsonify(response)
 
 if __name__ == '__main__':

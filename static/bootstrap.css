@@ -499,19 +499,27 @@ pre code {
     overflow-y: scroll
 }
 
+.wrap {
+    width: 85%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
 .container {
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
     margin-right: auto;
-    margin-left: auto
+    margin-left: auto;
 }
 
 .profile-header {
-    background: #0e76a8;
+    background: #F5F5F5;
     width: 100%;
     display: flex;
-    height: 180px;
+    height: 130px;
     position: relative;
     box-shadow: 0px 3px 4px rgba(0,0,0,.2);
 }
@@ -526,18 +534,17 @@ pre code {
 
 .profile-img {
     float: left;
-    width: 200px;
-    height: 180px;
+    width: 150px;
+    height: 200px;
+    padding: 60px 20px 20px;
 }
 
 .profile-img img {
     border-radius: 50%;
-    height: 200px;
-    width: 230px;
+    height: 140px;
+    width: 170px;
     border: 4px solid #fff;
     box-shadow: 0px 5px 10px rgba(0,0,0,.2);
-    position: absolute;
-    left: 50px;
 }
 
 .main-bd {
@@ -547,7 +554,7 @@ pre code {
 }
 
 .profile-side {
-    width: 300px;
+    width: 250px;
     background: #F5F5F5;
     box-shadow: 0px 3px 5px rgba(0,0,0,.2);
     padding: 90px 30px 20px;
@@ -561,6 +568,49 @@ pre code {
     margin-right: 10px;
 }
 
+.nav {
+    width: 100%;
+    z-index: -1;
+}
+
+.right-side {
+    width : 100%
+}
+
+.nav ul {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    list-style-type: none;
+    height: 40px;
+    background: #fff;
+    box-shadow: 0px 2px 5px rgba(0,0,0,.3);
+}
+
+.nav ul li {
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+    transition: all .2s ease-in-out;
+}
+
+.nav ul li.active,
+.nav ul li:hover {
+    box-shadow: 0px -3px 0px royalblue inset;
+}
+
+.profile-body {
+    width: 100%;
+    z-index: -1;
+}
+
+.tab {
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    display: none;
+}
 
 @media (min-width: 576px) {
     .container {
