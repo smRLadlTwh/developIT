@@ -1,8 +1,8 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from pymongo import MongoClient
-import hashlib
 import os
 import board
+import sign
 
 app = Flask(__name__)
 
@@ -55,6 +55,13 @@ def board_upload_fail_page():
 @app.route("/api/board/write", methods=['POST'])
 def board_write():
     response = board.board_write()
+    return jsonify(response)
+
+
+# 로그인 API
+@app.route('/api/login', methods=['POST'])
+def sign_in():
+    response = sign.sign_in()
     return jsonify(response)
 
 
