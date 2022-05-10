@@ -1,9 +1,11 @@
+import boto3
 from flask import Flask, render_template, jsonify, request, session, url_for, redirect, abort
 import datetime
 import json
 import jwt
 import os
 import uuid
+from werkzeug.utils import secure_filename
 
 from pymongo import MongoClient
 
@@ -23,7 +25,6 @@ SECRET_KEY = config.security
 
 # 게시물을 등록하는 API
 def board_write():
-    data = json.loads(request.data)
     token = request.cookies.get('token')
     try:
         # 유저 정보 식별
@@ -41,10 +42,9 @@ def board_write():
         board_uuid = str(uuid.uuid4())
 
         # 유저로부터 받은 데이터
-        data = json.loads(request.data)
-        title = data["title"]
-        content = data["content"]
-        cost = data["cost"]
+        title = request.form["title"]
+        content = request.form["content"]
+        cost = request.form["cost"]
         doc = {
             "uuid": board_uuid,
             "title": title,
@@ -52,12 +52,25 @@ def board_write():
             "cost": cost,
             "created_at": time,
         }
+
+        if 'image' in request.files:
+            file = request.files["image"]
+            filename = secure_filename(file.filename)
+            extension = filename.split(".")[-1]
+            file_path = f"{time}.{extension}"
+            doc["image_url"] = file_path
+
+            s3 = boto3.client('s3', aws_access_key_id=config.aws_access_key, aws_secret_access_key=config.aws_secret_key)
+            s3.put_object(
+                ACL="public-read",
+                Bucket="devit-bucket",
+                Body=file,
+                Key=file_path,
+                ContentType=file.content_type)
+
         board.append(doc)
 
         db.developIT.update_one({'user.uuid': str(user_info['uuid'])}, {'$set': {'boards': board}})
-
-        user_info = db.developIT.find_one({"user.e_mail": 'dlekgp0423@naver.com'})
-        print(user_info)
 
         return {"result": "success", "status_code": 201}
     except jwt.ExpiredSignatureError:
