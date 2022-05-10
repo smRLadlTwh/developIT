@@ -22,122 +22,33 @@
             font-family: 'Do Hyeon', sans-serif;
         }
 
-        .write-form {
-            width: 60%;
-            background-color: white;
-            border: 2px #337ab7 solid;
-            margin: auto auto 20px auto;
-        }
-
-        .table-box {
-            width: 90%;
-            margin-left: 5%;
-        }
-
-        table.table td > input, td > textarea {
+        .success-alarm {
             width: 100%;
+            background-color: #D8D8D8;
+            margin-bottom: 30px;
+            margin-top: 30px;
+            padding: 100px
         }
 
-        .top {
-            width: 60%;
-            margin: 20px auto 0px auto;
-            background-color: #337ab7;
-            height: 40px;
-            padding: 5px;
-        }
-
-        .top-text {
-            color: white;
+        .alarm-text {
+            font-family: 'Do Hyeon', sans-serif;
             width: max-content;
             margin: auto;
+        }
+
+        .button-text {
+            width: max-content;
+            margin: auto;
+            color: #337ab7;
             display: block;
-            font-family: 'Do Hyeon', sans-serif;
         }
 
-        .button {
-            width: 300px;
-            margin-bottom: 20px;
-            float: right;
-            margin-top: 10px;
-            padding: 0;
-            background-color: transparent;
+        .alarm-logo {
+            width: max-content;
+            margin: auto auto 30px;
         }
-
-        .button:hover {
-            background-color: transparent;
-        }
-
-        .button > button {
-            width: 300px;
-            height: 50px;
-            background-color: #337ab7;
-            border: 0;
-            color: white;
-            font-size: 20px;
-            font-family: 'Do Hyeon', sans-serif;
-            margin-left: 3px;
-        }
-
-        .button > button:hover {
-            width: 300px;
-            height: 50px;
-            background-color: gray;
-            border: 0;
-            color: white;
-            font-size: 20px;
-            font-family: 'Do Hyeon', sans-serif;
-            margin-left: 3px;
-        }
-
     </style>
 
-    <script>
-        function inputNumberFormat(obj) {
-            obj.value = comma(uncomma(obj.value));
-        }
-
-        function comma(str) {
-            str = String(str);
-            return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-        }
-
-        function uncomma(str) {
-            str = String(str);
-            return str.replace(/[^\d]+/g, '');
-        }
-
-        function submit() {
-
-        }
-
-        function enroll_board() {
-            let title = $('#title').val()
-            let cost = $("#cost").val()
-            let image = $('#image')[0].files[0]
-            let content = $("#content").val()
-            let form_data = new FormData()
-            form_data.append("title", title)
-            form_data.append("cost", cost)
-            form_data.append("image", image)
-            form_data.append("content", content)
-
-            $.ajax({
-                type: "POST",
-                url: "/api/board/write",
-                data: form_data,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    if (response["status_code"] === 201) {
-                       location.href = `http://localhost:5000/board/write/success`;
-                    } else {
-                        location.href = `http://localhost:5000/board/write/fail`;
-                    }
-                }
-            });
-        }
-    </script>
 </head>
 
 <body class="search list-style">
@@ -166,31 +77,11 @@
     </div><!-- row-content -->
 </header><!-- row -->
 <main role="main">
-    <div class="top">
-        <h3 class="top-text">게시글 작성하기</h3>
-    </div>
-    <div class="write-form">
-        <table class="table-box">
-            <tr class="tr">
-                <th>제목</th>
-                <td><input type="text" id="title"/></td>
-            </tr>
-            <tr>
-                <th>비용</th>
-                <td><input type="text" id="cost" placeholder="원" onkeyup="inputNumberFormat(this)"/></td>
-            </tr>
-            <tr>
-                <th>썸네일</th>
-                <td><input type="file" id="image"/></td>
-            </tr>
-            <tr>
-                <th>내용</th>
-                <td><textarea type="text" id="content"></textarea></td>
-            </tr>
-        </table>
-        <div class="button">
-            <button onclick="enroll_board()">게시글 등록</button>
-        </div>
+    <div class="success-alarm">
+        <img src="/static/example.jpeg" class="alarm-logo"/>
+        <h3 class="alarm-text">죄송합니다. 게시물을 등록하지 못하였습니다.</h3>
+        <h3 class="alarm-text">최대한 빠르게 해결할 수 있도록 노력하겠습니다.</h3>
+        <a class="button-text"> [개발자에게 오류 알리기] </a>
     </div>
 </main><!-- main -->
 

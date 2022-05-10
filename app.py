@@ -31,6 +31,24 @@ def index():
     return render_template('index.html')
 
 
+# 게시글 업로드 페이지 반환
+@app.route("/board-upload")
+def board_upload_page():
+    return render_template('board-upload.html')
+
+
+# 게시글 성공 시 게시글 성공 페이지 반환
+@app.route("/board/write/success")
+def board_upload_success_page():
+    return render_template('board-upload-success.html')
+
+
+# 게시글 실패 시 게시글 실패 페이지 반환
+@app.route("/board/write/fail")
+def board_upload_fail_page():
+    return render_template('board-upload-fail.html')
+
+
 # -------------------- API --------------------- #
 
 # 게시글 업로드 API

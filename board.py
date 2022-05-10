@@ -23,6 +23,7 @@ SECRET_KEY = config.security
 
 # 게시물을 등록하는 API
 def board_write():
+    data = json.loads(request.data)
     token = request.cookies.get('token')
     try:
         # 유저 정보 식별
