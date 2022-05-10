@@ -57,20 +57,21 @@
             font-family: 'Do Hyeon', sans-serif;
         }
 
-        .button {
+        .upload-button {
             width: 300px;
             margin-bottom: 20px;
             float: right;
             margin-top: 10px;
             padding: 0;
             background-color: transparent;
+            margin-right: 10px;
         }
 
-        .button:hover {
+        .upload-button:hover {
             background-color: transparent;
         }
 
-        .button > button {
+        .upload-button > button {
             width: 300px;
             height: 50px;
             background-color: #337ab7;
@@ -78,10 +79,9 @@
             color: white;
             font-size: 20px;
             font-family: 'Do Hyeon', sans-serif;
-            margin-left: 3px;
         }
 
-        .button > button:hover {
+        .upload-button > button:hover {
             width: 300px;
             height: 50px;
             background-color: gray;
@@ -89,7 +89,6 @@
             color: white;
             font-size: 20px;
             font-family: 'Do Hyeon', sans-serif;
-            margin-left: 3px;
         }
 
     </style>
@@ -166,7 +165,7 @@
                 <td><textarea type="text" id="content"></textarea></td>
             </tr>
         </table>
-        <div class="button">
+        <div class="upload-button">
             <button onclick="enroll_board()">게시글 등록</button>
         </div>
     </div>
