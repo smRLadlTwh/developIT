@@ -110,15 +110,15 @@ def board_write():
 
 # 게시물 전체 보여주기
 def board_show():
-    token = request.cookies.get('token')
-    if token is None:
-        abort(404, '토큰 정보가 존재하지 않습니다.')
+    # token = request.cookies.get('token')
+    # if token is None:
+    #     abort(404, '토큰 정보가 존재하지 않습니다.')
     try:
         # 유저 정보 식별
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.user.find_one({"uuid": payload["uuid"]})
-        if user_info is None:
-            abort(404, '회원 정보가 존재하지 않습니다.')
+        # payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        # user_info = db.user.find_one({"uuid": payload["uuid"]})
+        # if user_info is None:
+        #     abort(404, '회원 정보가 존재하지 않습니다.')
 
         if request.args.get('page') is not None:
             page = int(request.args.get('page'))
@@ -129,20 +129,20 @@ def board_show():
         else:
             page_size = 10
 
+        # 검색어가 있는 경우
         if request.args.get('search') is not None or request.args.get('search') == '':
             search = ".*" + request.args.get('search') + ".*"
             like_search = re.compile(search, re.IGNORECASE)
             boards = list(
                 db.board.find({"$or": [{'board.title': like_search}, {'board.content': like_search}]},
-                              {'_id': False, 'user': False, 'favorites': False}).sort('board.created_at', -1).skip(
-                    (page - 1) * page_size).limit(page_size))
+                              {'_id': False}).sort('board.created_at', -1).skip((page - 1) * page_size).limit(
+                    page_size))
             count = db.board.estimated_document_count(
                 {"$or": [{'board.title': like_search}, {'board.content': like_search}]})
+        # 검색어가 없는 경우
         else:
             boards = list(
-                db.board.find({}, {'_id': False, 'user': False, 'favorites': False}).sort('board.created_at',
-                                                                                          -1).skip(
-                    (page - 1) * page_size).limit(
+                db.board.find({}, {'_id': False}).sort('board.created_at', -1).skip((page - 1) * page_size).limit(
                     page_size))
             count = db.board.estimated_document_count({})
 
