@@ -7,8 +7,9 @@
         width: device-width;
     }</style>
     <title>DevIT</title>
-     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/layers.min.css" media="screen">
+    <link rel="stylesheet" href="/static/font-awesome.min.css" media="screen">
     <link rel="stylesheet" href="/static/board.css" media="screen">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +21,34 @@
         * {
             font-family: 'Do Hyeon', sans-serif;
         }
+
+        .success-alarm {
+            width: 100%;
+            background-color: #D8D8D8;
+            margin-bottom: 30px;
+            margin-top: 30px;
+            padding: 100px
+        }
+
+        .alarm-text {
+            font-family: 'Do Hyeon', sans-serif;
+            width: max-content;
+            margin: auto;
+        }
+
+        .button-text {
+            width: max-content;
+            margin: auto;
+            color: #337ab7;
+            display: block;
+        }
+
+        .alarm-logo {
+            width: max-content;
+            margin: auto auto 30px;
+        }
     </style>
+
 </head>
 
 <body class="search list-style">
@@ -41,13 +69,22 @@
                 <li class="menu-item">
                     <a href="#">어쩌구</a>
                 </li>
-                 <li class="menu-item">
+                <li class="menu-item">
                     <a href="#">[로그아웃]</a>
                 </li>
             </ul>
         </nav>
     </div><!-- row-content -->
 </header><!-- row -->
+<main role="main">
+    <div class="success-alarm">
+        <img src="/static/example.jpeg" class="alarm-logo"/>
+        <h3 class="alarm-text">죄송합니다. 게시물을 등록하지 못하였습니다.</h3>
+        <h3 class="alarm-text">최대한 빠르게 해결할 수 있도록 노력하겠습니다.</h3>
+        <a class="button-text"> [개발자에게 오류 알리기] </a>
+    </div>
+</main><!-- main -->
+
 <footer role="contentinfo">
     <div class="row">
         <div class="row-content buffer clear-after">
@@ -98,9 +135,6 @@
 </footer>
 
 <script src="https://code.jquery.com/jquery.js"></script>
-<script src="js/plugins.js"></script>
-<script src="js/beetle.js"></script>
-
 </body>
 
 </html>
