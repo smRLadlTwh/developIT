@@ -15,12 +15,14 @@ if os.environ['env'] == 'prod':
                          password=f'{os.environ["password"]}')
     CLIENT_ID = os.environ['CLIENT_ID']
     REDIRECT_URI = os.environ['REDIRECT_URI']
+    host = os.environ['host']
 else:
     from configs import config_local as config
 
     client = MongoClient(f'{config.host}', 27017)
     CLIENT_ID = config.CLIENT_ID
     REDIRECT_URI = config.REDIRECT_URI
+    host = config.host
 
 db = client.developITdb
 
@@ -161,7 +163,7 @@ def oauth_api():
     print(exists)
 
     if exists is False:
-        return redirect('http://localhost:5000/social-sign-up')  # 서비스 홈페이지로 redirect
+        return redirect('/social-sign-up')  # 서비스 홈페이지로 redirect
     else:
         return render_template('board.html', token=exists)  # 서비스 홈페이지로 redirect
 
