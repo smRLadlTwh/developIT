@@ -10,14 +10,14 @@ import os
 if os.environ['env'] == 'prod':
     client = MongoClient(f'{os.environ["host"]}', 27017, username=f'{os.environ["user"]}',
                          password=f'{os.environ["password"]}')
+    SECRET_KEY = os.environ["security"]
 else:
     from configs import config_local as config
 
     client = MongoClient(f'{config.host}', 27017)
+    SECRET_KEY = config.security
 
 db = client.developITdb
-
-SECRET_KEY = config.security
 
 
 # 로그인

@@ -11,15 +11,16 @@ import re
 from pymongo import MongoClient
 
 if os.environ['env'] == 'prod':
-    client = MongoClient(f'{os.environ["host"]}', 27017, username=f'{os.environ["user"]}', password=f'{os.environ["password"]}')
+    client = MongoClient(f'{os.environ["host"]}', 27017, username=f'{os.environ["user"]}',
+                         password=f'{os.environ["password"]}')
+    SECRET_KEY = os.environ["security"]
 else:
     from configs import config_local as config
 
     client = MongoClient(f'{config.host}', 27017)
+    SECRET_KEY = config.security
 
 db = client.developITdb
-
-SECRET_KEY = config.security
 
 
 # 게시물을 등록하는 API
