@@ -1,6 +1,6 @@
 import uuid
 
-from flask import jsonify, request
+from flask import jsonify, request, session
 from datetime import datetime, timedelta
 import jwt
 import hashlib
@@ -20,15 +20,10 @@ db = client.developITdb
 
 SECRET_KEY = config.security
 
-
 # 로그인
 def sign_in():
-    print(request)
-
     user_email = request.form['email']
     user_pw = request.form['pw']
-
-    print(user_email, user_pw)
 
     # 패스워드를 해시함수 이용하여 해시값을 만듦
     pw_hash = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
@@ -49,7 +44,6 @@ def sign_in():
 
 # 회원가입
 def sign_up():
-
     user_email = request.form['email']
     user_pw = request.form['password']
     name = request.form['name']
@@ -60,9 +54,10 @@ def sign_up():
     time = now.strftime('%Y-%m-%d %H:%M:%S')
 
     password_hash = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
+    user_uuid = str(uuid.uuid4())
     doc = {
         'user': {
-            "uuid": str(uuid.uuid4()),
+            "uuid": str(user_uuid),
             "e_mail": user_email,
             "password": password_hash,
             "name": name,
@@ -72,7 +67,16 @@ def sign_up():
     }
     db.user.insert_one(doc)
 
-    return {'result': 'success', 'status_code': 201}
+    if 'access_token' in session:
+        payload = {
+            'uuid': str(user_uuid),
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 6)  # 로그인 6시간 유지
+        }
+        # 시크릿 키를 이용하여 암호화
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        return {'result': 'success', 'status_code': 201, "token": token}
+    else:
+        return {'result': 'success', 'status_code': 201}
 
 
 # 이메일 중복 체크

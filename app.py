@@ -1,12 +1,15 @@
-from flask import Flask, render_template, jsonify, request, redirect, url_for
-from pymongo import MongoClient
-from controller import Oauth
 import os
-import board, favorites
+from flask import Flask, render_template, jsonify, request, redirect
+from pymongo import MongoClient
+import requests
+import board
+import favorites
 import sign
 from configs.config_local import CLIENT_ID, REDIRECT_URI
+from controller import Oauth
 
 app = Flask(__name__)
+app.secret_key = ""
 
 if os.environ['env'] == 'prod':
     from configs import config_prod as config
