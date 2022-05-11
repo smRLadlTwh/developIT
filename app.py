@@ -44,7 +44,6 @@ def sign_up_page():
     return render_template('sign-up.html')
 
 
-
 # 프로필 페이지 반환
 @app.route('/profile')
 def profile_page():
@@ -93,6 +92,13 @@ def board_write():
 def board_entire_show():
     response = favorites.show_favorite()
     return jsonify(response)
+
+# 게시글 전체 보여주기 API
+@app.route("/api/board", methods=['GET'])
+def board_entire_show():
+    response = board.board_show()
+    return jsonify(response)
+
 
 # 로그인 API
 @app.route('/api/login', methods=['POST'])
