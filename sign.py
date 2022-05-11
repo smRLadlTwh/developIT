@@ -23,8 +23,12 @@ SECRET_KEY = config.security
 
 # 로그인
 def sign_in():
+    print(request)
+
     user_email = request.form['email']
     user_pw = request.form['pw']
+
+    print(user_email, user_pw)
 
     # 패스워드를 해시함수 이용하여 해시값을 만듦
     pw_hash = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
@@ -45,6 +49,7 @@ def sign_in():
 
 # 회원가입
 def sign_up():
+
     user_email = request.form['email']
     user_pw = request.form['password']
     name = request.form['name']
