@@ -46,8 +46,6 @@ def sign_in():
     else:
         return {"result": "fail", "status_code": 401, "error_message": 'BAD_CREDENTIAL'}
 
-<<<<<<< HEAD
-=======
 
 # 회원가입
 def sign_up():
@@ -83,4 +81,3 @@ def email_duplicate_check():
     exists = bool(db.user.find_one({"user.e_mail": user_email}))
 
     return {'result': 'success', 'exists': exists}
->>>>>>> 8a883be184786cd2574a09368331135938cc03e2
