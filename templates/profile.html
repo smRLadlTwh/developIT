@@ -3,6 +3,7 @@
     <meta charset="utf-8">
     <title>DevIT</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
@@ -15,6 +16,19 @@
             font-family: 'Do Hyeon', sans-serif;
         }
     </style>
+    <script>
+        $(function(){
+            $.ajax({
+                type: "GET",
+                url: "/api/favorites",
+                data: {},
+                success: function (response) {
+                    return
+                }
+            })
+         });
+
+    </script>
 </head>
 
 <body>

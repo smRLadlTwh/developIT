@@ -1,15 +1,10 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from pymongo import MongoClient
 from controller import Oauth
-import requests
 import os
 import board, favorites
 import sign
-<<<<<<< HEAD
-from config import CLIENT_ID, REDIRECT_URI, SIGNOUT_REDIRECT_URI
-=======
 from configs.config_local import CLIENT_ID, REDIRECT_URI
->>>>>>> 8a883be184786cd2574a09368331135938cc03e2
 
 app = Flask(__name__)
 
@@ -38,14 +33,11 @@ def index_page():
     return render_template('index.html')
 
 
-<<<<<<< HEAD
-=======
 # 로그인 페이지 반환
 @app.route("/login")
 def login_page():
     return render_template('login.html')
 
->>>>>>> 8a883be184786cd2574a09368331135938cc03e2
 
 # 회원가입 반환
 @app.route("/sign-up")
@@ -53,17 +45,16 @@ def sign_up_page():
     return render_template('sign-up.html')
 
 
-<<<<<<< HEAD
 # 카카오 회원가입 반환
 @app.route("/social-sign-up")
 def social_sign_up_page():
     return render_template('social-sign-up.html')
-=======
+
+
 # 프로필 페이지 반환
 @app.route('/profile')
 def profile_page():
     return render_template('profile.html')
->>>>>>> 8a883be184786cd2574a09368331135938cc03e2
 
 
 # 게시글 업로드 페이지 반환
@@ -105,9 +96,17 @@ def board_write():
     return jsonify(response)
 
 
-@app.route('/api/favorites', methods=['GET'])
+@app.route('/api/favorite', methods=['GET'])
 def board_favorite():
     response = favorites.show_favorite()
+    return jsonify(response)
+
+
+@app.route('/api/favorite/write', methods=['POST'])
+def board_favorite_write():
+    par = request.form['board_id']
+    print("par : " + par)
+    response = favorites.write_favorite(par)
     return jsonify(response)
 
 
@@ -125,7 +124,6 @@ def sign_in():
     return jsonify(response)
 
 
-<<<<<<< HEAD
 # -------------------- 카카오 --------------------- #
 
 # 카카오 서버로 로그인 요청
@@ -135,12 +133,13 @@ def oauth_url_api():
         kakao_oauth_url="https://kauth.kakao.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code"
                         % (CLIENT_ID, REDIRECT_URI)
     )
-#아예 redirect url을 /oauth로 줘서 여기로 redirect해주는구먼
+
+
+# 아예 redirect url을 /oauth로 줘서 여기로 redirect해주는구먼
 
 # 카카오 서버로 유저 정보 요청
 @app.route("/oauth")
 def oauth_api():
-
     code = str(request.args.get('code'))  # 응답 신호 획득
     oauth = Oauth()  # 토큰들을 담는 객체 생성
     auth_info = oauth.auth(code)  # 토큰들 획득 및 저장
@@ -152,9 +151,7 @@ def oauth_api():
     # session['token'] = auth_info['access_token']
     # 로그아웃에 사용될 세션 값 = 쿠키값
 
-
-
-    #로직: user안에 내가 입력한 정보(이름,번화번호)가 있으면 board로 redirect시켜주고 없을때는 추가정보입력하도록 social sign up으로 redirect해주기
+    # 로직: user안에 내가 입력한 정보(이름,번화번호)가 있으면 board로 redirect시켜주고 없을때는 추가정보입력하도록 social sign up으로 redirect해주기
     return redirect('http://localhost:5000/social-sign-up')  # 서비스 홈페이지로 redirect
 
 
@@ -188,7 +185,6 @@ def token_user_info(access_token):
 #
 #     return redirect('http://localhost:5000/board')
 
-=======
 # 회원가입 API
 @app.route('/api/sign-up', methods=['POST'])
 def sign_up():
@@ -203,14 +199,5 @@ def email_duplicate_check():
     return jsonify(response)
 
 
-@app.route('/oauth/url')
-def oauth_url_api():
-    return jsonify(
-        kakao_oauth_url="https://kauth.kakao.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code" \
-                        % (CLIENT_ID, REDIRECT_URI)
-    )
-
-
->>>>>>> 8a883be184786cd2574a09368331135938cc03e2
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
