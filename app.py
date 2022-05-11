@@ -1,8 +1,6 @@
 import os
-
 from flask import Flask, render_template, jsonify, request, redirect, session
 from pymongo import MongoClient
-
 import requests
 import board
 import favorites
@@ -100,9 +98,17 @@ def board_write():
     return jsonify(response)
 
 
-@app.route('/api/favorites', methods=['GET'])
+@app.route('/api/favorite', methods=['GET'])
 def board_favorite():
     response = favorites.show_favorite()
+    return jsonify(response)
+
+
+@app.route('/api/favorite/write', methods=['POST'])
+def board_favorite_write():
+    par = request.form['board_id']
+    print("par : " + par)
+    response = favorites.write_favorite(par)
     return jsonify(response)
 
 
@@ -189,7 +195,6 @@ def token_user_info(access_token):
 #         value = {"status": 404, "result": "fail"}
 #
 #     return redirect('http://localhost:5000/board')
-
 
 # 회원가입 API
 @app.route('/api/sign-up', methods=['POST'])

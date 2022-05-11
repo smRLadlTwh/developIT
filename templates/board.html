@@ -149,6 +149,23 @@
             }
         }
 
+
+
+        function favorite(dic) {
+
+            $.ajax({
+                type: "POST",
+                url: `/api/favorite/write`,
+                data: {
+                    board_id : dic //게시글 pk 값
+                },
+                success: function (response) {
+                    console.log(response)
+
+                }
+             })
+        }
+
         function boardList(page, searchText) {
             $('#board-list').empty();
             let pageSize = 5;
@@ -172,6 +189,8 @@
                         let cost = boards[i]['board']['cost'];
                         let created_at = boards[i]['board']['created_at'].split(" ")[0];
                         let image_url = boards[i]['board']['image_url'];
+                        let board_id = String(boards[i]['board']['uuid']);
+
 
                         let writer_name = boards[i]['user']['name'];
 
@@ -182,6 +201,7 @@
                         <article class="clear-after white-card">
                             <div class="column three">
                                 <img src="/static/logo.png" alt="" class="thumbnail">
+                                <button class="btn1" type="button" onclick="favorite('${board_id}')">즐겨찾기</button>
                             </div>
                             <div class="column nine last">
                                 <h2><a href="#">${title}</a></h2>
@@ -200,7 +220,8 @@
                         <article class="clear-after white-card">
                             <div class="column three">
                                 <img src="https://devit-bucket.s3.ap-northeast-2.amazonaws.com/${image_url}" alt="" class="thumbnail">
-                            </div>
+                                                                <button class="btn1" type="button" onclick="favorite('${board_id}')">즐겨찾기</button>
+
                             <div class="column nine last">
                                 <h2><a href="#">${title}</a></h2>
                                 <h5 class="meta-post">

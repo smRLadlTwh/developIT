@@ -3,6 +3,7 @@
     <meta charset="utf-8">
     <title>DevIT</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
@@ -15,6 +16,42 @@
             font-family: 'Do Hyeon', sans-serif;
         }
     </style>
+
+    {'result': 'success', 'data': [{'uuid': '55072010-eed2-4fe3-8e3c-115f4aeb797c', 'board_uuid': '4bb31ff2-7f97-44a9-b6a2-76117eb44675', 'image_url': 'default_image.jpeg', 'title': '가입인사', 'cost': '100', 'writer_name': '닉네임3', 'create_at': '2022-05-11 17:54:34'}]}
+
+    <script>
+        $(function(){
+            $.ajax({
+                type: "GET",
+                url: "/api/favorite",
+                data: {},
+                success: function (response) {
+                    if (response['data'] === '') {
+                        let tmp_html = ``;
+                    }
+                    else {
+                        let image_url
+
+                        let tmp_html = `
+                        <div class="col" onclick="" style="width: 16rem; padding-left: 5px">
+                        <div class="card h-100">
+                            <img class="no-border img-thumbnail"
+                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcE9NGEQuAXw1Cg98jbhhhUfM2IpZcWilwHg&usqp=CAU"
+                                 alt="이미지">
+                            <div class="card-body">
+                                <a target="_blank" class="card-title">카카오 개발자 모집</a>
+                                <p class="card-text">KAKAO</p>
+                                <p class="card-text comment">300,000원</p>
+                            </div>
+                        </div>
+                    </div>
+                        `;
+                    }
+                }
+            })
+         });
+
+    </script>
 </head>
 
 <body>
