@@ -8,17 +8,34 @@ from pymongo import MongoClient
 import os
 
 if os.environ['env'] == 'prod':
-    from configs import config_prod as config
-
-    client = MongoClient(f'{config.host}', 27017, username=f'{config.user}', password=f'{config.password}')
+    client = MongoClient(f'{os.environ["host"]}', 27017, username=f'{os.environ["user"]}',
+                         password=f'{os.environ["password"]}')
+    SECRET_KEY = os.environ["security"]
 else:
     from configs import config_local as config
 
     client = MongoClient(f'{config.host}', 27017)
+    SECRET_KEY = config.security
 
 db = client.developITdb
 
-SECRET_KEY = config.security
+
+
+# 소셜 로그인
+def social_sign_in(email):
+    exists = bool(db.user.find_one({"user.e_mail": email}))
+    if exists:
+        user = db.user.find_one({'user.e_mail': email})
+        payload = {
+            'uuid': str(user['user']['uuid']),
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 6)  # 로그인 6시간 유지
+        }
+        # 시크릿 키를 이용하여 암호화
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        return token
+    else:
+        return False
+
 
 # 로그인
 def sign_in():
