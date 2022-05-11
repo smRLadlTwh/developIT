@@ -86,12 +86,18 @@ def show_favorite():
 
         print(user_info)
 
-        email = user_info['user']['e_mail']
-        name = user_info['user']['name']
-        phone_number = user_info['user']['phone_number']
-        favorite = []
+        if user_info.get('favorites') is None:
+            return {"result": "success", 'data': ''}
+        else :
+            favorite_board = []
+            favorite_board = user_info['favorites']
 
+        response = {
+            "result": "success",
+            "data": favorite_board,
+        }
 
+        print(response)
 
     finally:
-        return
+        return response
