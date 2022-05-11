@@ -50,13 +50,23 @@
     </style>
 
     <script>
+
+        function to_social_sign_up() {
+            $.ajax({
+                type: "GET",
+                url: "/oauth/url",
+                data: {},
+                success: function (response) {
+                    console.log(response)
+                    let url = response['kakao_oauth_url']
+                    console.log(url)
+                    window.location.replace(url);
+                }
+            });
+        }
+
         function to_sign_up() {
             window.location.href = "/sign-up"
-        }
-        function sign_in(){
-            let email = $("#id").val()
-            let password = $("#password").val()
-
         }
 
 
@@ -73,8 +83,8 @@
             <img src="/static/logo.png" width="330" alt="">
         </div>
         <div class="form-group">
-            <button type="button" style="border:none; padding: 1px; margin-bottom: 5px;"><img
-                    src="/static/kakao_login_large_wide.png" width="340" alt="" id="kakao"></button>
+            <button onclick=to_social_sign_up() type="button" style="border:none; padding: 1px; margin-bottom: 5px;">
+                <img src="/static/kakao_login_large_wide.png" width="340" alt="" id="kakao"></button>
             <button onclick=to_sign_up() type="button" class="btn btn-primary btn-block">이메일로 가입하기</button>
 
         </div>
