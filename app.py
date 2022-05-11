@@ -14,9 +14,8 @@ app = Flask(__name__)
 app.secret_key = ""
 
 if os.environ['env'] == 'prod':
-    from configs import config_prod as config
-
-    client = MongoClient(f'{config.host}', 27017, username=f'{config.user}', password=f'{config.password}')
+    client = MongoClient(f'{os.environ["host"]}', 27017, username=f'{os.environ["user"]}',
+                         password=f'{os.environ["password"]}')
 else:
     from configs import config_local as config
 
