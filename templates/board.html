@@ -175,7 +175,7 @@
 
                         let tmp_html = ``;
 
-                        if (image_url = 'default_image.jpeg') {
+                        if (image_url === 'default_image.jpeg') {
                             tmp_html = `
                         <article class="clear-after white-card">
                             <div class="column three">
@@ -184,8 +184,8 @@
                             <div class="column nine last">
                                 <h2><a href="#">${title}</a></h2>
                                 <h5 class="meta-post">
-                                    <p class="writer">작성자 : ${writer_name} -
-                                        <time datetime="2013-11-10">${created_at}</time>
+                                    <p class="writer">작성자 : ${writer_name}
+                                        <time datetime="2013-11-10">[${created_at}]</time>
                                     </p>
                                 </h5>
                                 <p> ${cost} 원 </p>
