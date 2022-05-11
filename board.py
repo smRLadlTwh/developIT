@@ -27,13 +27,11 @@ SECRET_KEY = config.security
 # 게시물을 등록하는 API
 def board_write():
     token = request.cookies.get('token')
-    print(token)
     if token is None:
         abort(404, '토큰 정보가 존재하지 않습니다.')
     try:
         # 유저 정보 식별
         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        print(payload)
         user_info = db.user.find_one({"user.uuid": payload["uuid"]})
 
         if user_info is None:
@@ -80,7 +78,7 @@ def board_write():
 
         board.append(doc)
 
-        db.user.update_one({'user.uuid': str(user_info['uuid'])}, {'$set': {'boards': board}})
+        db.user.update_one({'user.uuid': str(payload["uuid"])}, {'$set': {'boards': board}})
 
         doc = {
             'user': {
