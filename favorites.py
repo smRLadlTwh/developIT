@@ -20,5 +20,5 @@ db = client.developITdb
 
 
 #즐겨찾기 목록 불러오는 API
-def show_favorite():
+def board_favorite():
     return

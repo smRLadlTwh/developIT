@@ -89,7 +89,7 @@ def board_write():
     return jsonify(response)
 
 @app.route('/api/favorites', methods=['GET'])
-def board_entire_show():
+def board_favorite():
     response = favorites.show_favorite()
     return jsonify(response)
 
