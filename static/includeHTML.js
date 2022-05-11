@@ -1,5 +1,6 @@
 // [참고] https://www.w3schools.com/howto/howto_html_include.asp
 function includeHTML(callback) {
+    $('#logout-alert').prop('hidden', true);
     var z, i, elmnt, file, xhr;
     /*loop through a collection of all HTML elements:*/
     z = document.getElementsByTagName('*');
@@ -40,6 +41,6 @@ function logout() {
     $('#logout-alert').prop('hidden', false);
     setTimeout(function () {
         $('#logout-alert').prop('hidden', true);
-    }, 3000);
-    // window.location.href = "/";
+        window.location.href = "/";
+    }, 2000);
 }
