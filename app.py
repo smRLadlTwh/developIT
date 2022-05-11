@@ -12,7 +12,7 @@ app.secret_key = "secret_key"
 
 if os.environ['env'] == 'prod':
     client = MongoClient(f'{os.environ["host"]}', 27017, username=f'{os.environ["user"]}',
-                         password=f'{os.environ["password"]}')
+                         password=f'{os.environ["password"]}',authSource="admin")
     CLIENT_ID = os.environ['CLIENT_ID']
     REDIRECT_URI = os.environ['REDIRECT_URI']
     host = os.environ['host']
