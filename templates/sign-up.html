@@ -26,9 +26,69 @@
         label {
             display: block;
         }
+
+        .is-danger {
+            color: red;
+        }
+
+        .is-safe {
+            color: #0275D8;
+        }
     </style>
+    <script>
+        function check_dup() {
+            let email = $('#email').val()
+            console.log(email)
 
+            $.ajax({
+                type: "POST",
+                url: "/api/email-duplicate check",
+                data: {
+                    "email": email
+                },
+                success: function (response) {
+                    console.log(response)
+                    if (response['exists'] === true) {
+                        $("#help-id-login").text("이미 존재하는 이메일입니다.")
+                    } else {
+                        $("#help-id-login").text("올바른 이메일입니다.").removeClass("is-danger").addClass("is-safe")
+                    }
+                }
+            });
+        }
 
+        function sign_up() {
+            let email = $("#email").val()
+            let password = $("#password").val()
+            let confirm = $("#confirm").val()
+            let phone_number = $("#phone_number").val()
+            let name = $("#name").val()
+            console.log(password, confirm)
+
+            if (password != confirm) {
+                $("#help-password-login").text("비밀번호가 일치하지 않습니다.")
+                $("#password").focus()
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/api/sign-up",
+                data: {
+                    email: email,
+                    password: password,
+                    name: name,
+                    phone_number: phone_number,
+                },
+                success: function (response) {
+                    if (response['status_code'] === 201) {
+                        console.log(response)
+                        alert('회원가입 성공 !')
+                        window.location.replace("/login")
+                    }
+                }
+            });
+        }
     </script>
 
 </head>
@@ -57,16 +117,22 @@
                                     <input type="text" class="form-control" name="email" id="email"
                                            placeholder="이메일을 입력해주세요."/>
                                     <div id="btn-check-dup" class="control is-hidden">
+<<<<<<< HEAD
 
                                         <button type="button" class="btn btn-primary" onclick="check_dup()">중복확인
                                         </button>
 
                                         <button type="button" class="btn btn-primary ">중복확인</button>
 
+=======
+                                        <button type="button" class="btn btn-primary" onclick="check_dup()">중복확인
+                                        </button>
+>>>>>>> 8a883be184786cd2574a09368331135938cc03e2
                                     </div>
                                 </div>
+                                <p id="help-id-login" class="help is-danger"></p>
 
-                                <div class="form-group">
+                                <div class="form-group" style="padding-top: 10px">
                                     <label for="password" class="cols-sm-2 control-label">비밀번호</label>
                                     <div class="cols-sm-10">
                                         <div class="input-group">
@@ -77,7 +143,7 @@
                                                    placeholder="비밀번호 (영문+숫자+특수문자 8자이상)"/>
                                         </div>
 
-                                        <div class="input-group">
+                                        <div class="input-group" style="padding-top: 10px">
                                                 <span class="input-group-addon"><i class="fa fa-lock fa-lg"
                                                                                    aria-hidden="true"></i></span>
                                             <input type="password" class="form-control" name="confirm" id="confirm"
@@ -85,6 +151,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <p id="help-password-login" class="help is-danger"></p>
 
                                 <div class="form-group">
                                     <label for="name" class="cols-sm-2 control-label">이름</label>
@@ -139,7 +206,8 @@
 
 
                                 <div class="form-group ">
-                                    <button type="button" class="btn btn-primary btn-lg btn-block login-button">
+                                    <button type="button" class="btn btn-primary btn-lg btn-block login-button"
+                                            onclick="sign_up()">
                                         회원가입하기
                                     </button>
                                 </div>

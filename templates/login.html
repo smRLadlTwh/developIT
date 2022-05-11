@@ -11,8 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gamja+Flower&family=Jua&display=swap"
           rel="stylesheet">
 
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 
@@ -50,8 +50,13 @@
     </style>
 
     <script>
+<<<<<<< HEAD
 
         function to_social_sign_up() {
+=======
+        function to_social_sign_up() {
+
+>>>>>>> 8a883be184786cd2574a09368331135938cc03e2
             $.ajax({
                 type: "GET",
                 url: "/oauth/url",
@@ -68,6 +73,38 @@
         function to_sign_up() {
             window.location.href = "/sign-up"
         }
+<<<<<<< HEAD
+=======
+
+        function sign_in() {
+            let email = $("#email").val()
+            let password = $("#password").val()
+
+            console.log(password)
+
+            $.ajax({
+                type: "POST",
+                url: "/api/login",
+                data: {
+                    email: email,
+                    pw: password,
+                },
+                success: function (response) {
+                    if (response['result'] === 'success') {
+                        let token = response['token'] //토큰 값
+                        console.log(token)
+                        $.cookie('token', token, {path: '/'});
+                        window.location.replace('/board')
+                    } else {
+                        alert('회원가입에 실패하였습니다.')
+                        return
+                    }
+                }
+            })
+
+        }
+
+>>>>>>> 8a883be184786cd2574a09368331135938cc03e2
 
     </script>
 
@@ -103,7 +140,7 @@
         </div>
 
         <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block">로그인</button>
+            <button type="submit" class="btn btn-primary btn-block" onclick="sign_in()">로그인</button>
         </div>
 
     </div>
