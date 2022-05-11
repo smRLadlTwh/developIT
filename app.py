@@ -207,4 +207,6 @@ def email_duplicate_check():
 
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5000, debug=True)
+    # app.run('0.0.0.0', port=5000, debug=True)
+    board = list(db.board.find({}))
+    print(board)

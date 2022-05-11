@@ -7,6 +7,11 @@
         width: device-width;
     }</style>
     <title>DevIT</title>
+
+     <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/layers.min.css" media="screen">
 
@@ -18,16 +23,8 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
 
-    <!-- JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script src="/static/includeHTML.js"></script>
     <script src="/static/includeRouter.js"></script>
-
-
 
     <style>
         * {
@@ -68,7 +65,7 @@
             border: 0;
             font-size: 15px;
             padding: 10px;
-             background-color: #337ab7;
+            background-color: #337ab7;
             color: white;
         }
 
@@ -88,6 +85,8 @@
     </style>
 
     <script>
+
+
         $(document).ready(function () {
             {% if token %}
             $.cookie('token', '{{ token }}', {path: '/'})
@@ -163,7 +162,7 @@
                     let boards = response['data']['boards'];
                     let total = response['total'];
 
-                    if(searchText !== '') {
+                    if (searchText !== '') {
                         $('#search-text').text(`${total} results for ${searchText}`)
                     }
 
@@ -283,7 +282,8 @@
                 <div class="widget widget_search">
                     <form role="search" onsubmit="return false">
                         <span class="pre-input"><i class="fa fa-search" aria-hidden="true"></i></span>
-                        <input id='search-input' type="text" placeholder="Search..." value="" class="plain buffer" onkeyup="if(window.event.keyCode==13){search()}">
+                        <input id='search-input' type="text" placeholder="Search..." value="" class="plain buffer"
+                               onkeyup="if(window.event.keyCode==13){search()}">
                     </form>
                 </div>
                 <div class="widget">
