@@ -12,7 +12,7 @@ app.secret_key = "secret_key"
 
 if os.environ['env'] == 'prod':
     client = MongoClient(f'{os.environ["host"]}', 27017, username=f'{os.environ["user"]}',
-                         password=f'{os.environ["password"]}',authSource="admin")
+                         password=f'{os.environ["password"]}', authSource="admin")
     CLIENT_ID = os.environ['CLIENT_ID']
     REDIRECT_URI = os.environ['REDIRECT_URI']
     host = os.environ['host']
@@ -167,7 +167,6 @@ def oauth_api():
     else:
         return render_template('board.html', token=exists)  # 서비스 홈페이지로 redirect
 
-
     # 로직: user안에 내가 입력한 정보(이름,번화번호)가 있으면 board로 redirect시켜주고 없을때는 추가정보입력하도록 social sign up으로 redirect해주기
 
 
@@ -216,4 +215,7 @@ def email_duplicate_check():
 
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5000, debug=True)
+    # app.run('0.0.0.0', port=5000, debug=True)
+    client = MongoClient("mongodb://smRLadlTwh:smRLadlTwh-sparta@13.124.198.117/developITdb")
+    db = client['developITdb']
+    print(list(db.user.find({})))
