@@ -30,12 +30,17 @@
             padding: 10px;
             color: #0B6121;;
         }
+
+        .alert-text {
+            width: max-content;
+            margin: auto;
+        }
     </style>
 
 </head>
 <body>
-<div class="alert" role="alert" id="logout-alert">
-    로그아웃이 완료되었습니다.
+<div class="alert hidden" role="alert" id="logout-alert">
+    <p class="alert-text">로그아웃이 완료되었습니다.</p>
 </div>
 <div class="nav-inner row-content buffer-left buffer-right even clear-after">
     <div id="brand">
