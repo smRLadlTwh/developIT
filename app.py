@@ -5,7 +5,6 @@ import requests
 import board
 import favorites
 import sign
-from configs.config_local import CLIENT_ID, REDIRECT_URI
 from controller import Oauth
 
 app = Flask(__name__)
@@ -13,11 +12,17 @@ app.secret_key = "secret_key"
 
 if os.environ['env'] == 'prod':
     client = MongoClient(f'{os.environ["host"]}', 27017, username=f'{os.environ["user"]}',
-                         password=f'{os.environ["password"]}')
+                         password=f'{os.environ["password"]}', authSource="admin")
+    CLIENT_ID = os.environ['CLIENT_ID']
+    REDIRECT_URI = os.environ['REDIRECT_URI']
+    host = os.environ['host']
 else:
     from configs import config_local as config
 
     client = MongoClient(f'{config.host}', 27017)
+    CLIENT_ID = config.CLIENT_ID
+    REDIRECT_URI = config.REDIRECT_URI
+    host = config.host
 
 db = client.developITdb
 
@@ -158,10 +163,9 @@ def oauth_api():
     print(exists)
 
     if exists is False:
-        return redirect('http://localhost:5000/social-sign-up')  # 서비스 홈페이지로 redirect
+        return redirect('/social-sign-up')  # 서비스 홈페이지로 redirect
     else:
         return render_template('board.html', token=exists)  # 서비스 홈페이지로 redirect
-
 
     # 로직: user안에 내가 입력한 정보(이름,번화번호)가 있으면 board로 redirect시켜주고 없을때는 추가정보입력하도록 social sign up으로 redirect해주기
 

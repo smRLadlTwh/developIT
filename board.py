@@ -66,8 +66,13 @@ def board_write():
             file_path = f"{time}.{extension}"
             doc["image_url"] = file_path
 
-            s3 = boto3.client('s3', aws_access_key_id=config.aws_access_key,
-                              aws_secret_access_key=config.aws_secret_key)
+            if os.environ['env'] == 'prod':
+                s3 = boto3.client('s3', aws_access_key_id=os.environ["aws_access_key_id"],
+                                  aws_secret_access_key=os.environ["aws_secret_access_key"])
+            else:
+                s3 = boto3.client('s3', aws_access_key_id=config.aws_access_key,
+                                  aws_secret_access_key=config.aws_secret_key)
+
             s3.put_object(
                 ACL="public-read",
                 Bucket="devit-bucket",
