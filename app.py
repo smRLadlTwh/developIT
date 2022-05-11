@@ -5,9 +5,7 @@ import board, favorites
 import sign
 from configs.config_local import CLIENT_ID, REDIRECT_URI
 
-
 app = Flask(__name__)
-
 
 if os.environ['env'] == 'prod':
     from configs import config_prod as config
@@ -33,10 +31,12 @@ def board_page():
 def index_page():
     return render_template('index.html')
 
-#로그인 페이지 반환
+
+# 로그인 페이지 반환
 @app.route("/login")
 def login_page():
     return render_template('login.html')
+
 
 # 회원가입 반환
 @app.route("/sign-up")
@@ -88,10 +88,12 @@ def board_write():
     response = board.board_write()
     return jsonify(response)
 
+
 @app.route('/api/favorites', methods=['GET'])
 def board_favorite():
     response = favorites.show_favorite()
     return jsonify(response)
+
 
 # 게시글 전체 보여주기 API
 @app.route("/api/board", methods=['GET'])
@@ -120,9 +122,9 @@ def email_duplicate_check():
     response = sign.email_duplicate_check()
     return jsonify(response)
 
+
 @app.route('/oauth/url')
 def oauth_url_api():
-
     return jsonify(
         kakao_oauth_url="https://kauth.kakao.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code" \
                         % (CLIENT_ID, REDIRECT_URI)
