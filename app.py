@@ -1,9 +1,15 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from pymongo import MongoClient
+from controller import Oauth
+import requests
 import os
 import board, favorites
 import sign
+<<<<<<< HEAD
+from config import CLIENT_ID, REDIRECT_URI, SIGNOUT_REDIRECT_URI
+=======
 from configs.config_local import CLIENT_ID, REDIRECT_URI
+>>>>>>> 8a883be184786cd2574a09368331135938cc03e2
 
 app = Flask(__name__)
 
@@ -32,11 +38,14 @@ def index_page():
     return render_template('index.html')
 
 
+<<<<<<< HEAD
+=======
 # 로그인 페이지 반환
 @app.route("/login")
 def login_page():
     return render_template('login.html')
 
+>>>>>>> 8a883be184786cd2574a09368331135938cc03e2
 
 # 회원가입 반환
 @app.route("/sign-up")
@@ -44,10 +53,17 @@ def sign_up_page():
     return render_template('sign-up.html')
 
 
+<<<<<<< HEAD
+# 카카오 회원가입 반환
+@app.route("/social-sign-up")
+def social_sign_up_page():
+    return render_template('social-sign-up.html')
+=======
 # 프로필 페이지 반환
 @app.route('/profile')
 def profile_page():
     return render_template('profile.html')
+>>>>>>> 8a883be184786cd2574a09368331135938cc03e2
 
 
 # 게시글 업로드 페이지 반환
@@ -109,6 +125,70 @@ def sign_in():
     return jsonify(response)
 
 
+<<<<<<< HEAD
+# -------------------- 카카오 --------------------- #
+
+# 카카오 서버로 로그인 요청
+@app.route('/oauth/url')
+def oauth_url_api():
+    return jsonify(
+        kakao_oauth_url="https://kauth.kakao.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code"
+                        % (CLIENT_ID, REDIRECT_URI)
+    )
+#아예 redirect url을 /oauth로 줘서 여기로 redirect해주는구먼
+
+# 카카오 서버로 유저 정보 요청
+@app.route("/oauth")
+def oauth_api():
+
+    code = str(request.args.get('code'))  # 응답 신호 획득
+    oauth = Oauth()  # 토큰들을 담는 객체 생성
+    auth_info = oauth.auth(code)  # 토큰들 획득 및 저장
+    print(auth_info)
+
+    user = oauth.userinfo("Bearer " + auth_info['access_token'])
+    print(user)
+
+    # session['token'] = auth_info['access_token']
+    # 로그아웃에 사용될 세션 값 = 쿠키값
+
+
+
+    #로직: user안에 내가 입력한 정보(이름,번화번호)가 있으면 board로 redirect시켜주고 없을때는 추가정보입력하도록 social sign up으로 redirect해주기
+    return redirect('http://localhost:5000/social-sign-up')  # 서비스 홈페이지로 redirect
+
+
+@app.route("/oauth/userinfo", methods=['POST'])
+def oauth_userinfo_api():
+    access_token = request.get_json()['access_token']
+    result = Oauth().userinfo("Bearer " + access_token)
+    return jsonify(result)
+
+
+def token_user_info(access_token):
+    user_info = Oauth().userinfo("Bearer " + access_token)
+    return user_info
+
+
+# # 로그아웃 호출입. 세션 값 있으면 지우고 로그인 페이지로 렌더링
+# @app.route("/oauth/logout")
+# def logout():
+#
+#     # 카카오 로그아웃 요청 url
+#     kakao_oauth_url = f"https://kauth.kakao.com/oauth/logout?client_id=" \
+#                       f"{CLIENT_ID}&logout_redirect_uri={SIGNOUT_REDIRECT_URI}"
+#
+#
+#     # 로그아웃 검사 로직
+#     if session.get('token'):
+#         session.clear()
+#         value = {"status": 200, "result": "success"}
+#     else:
+#         value = {"status": 404, "result": "fail"}
+#
+#     return redirect('http://localhost:5000/board')
+
+=======
 # 회원가입 API
 @app.route('/api/sign-up', methods=['POST'])
 def sign_up():
@@ -131,5 +211,6 @@ def oauth_url_api():
     )
 
 
+>>>>>>> 8a883be184786cd2574a09368331135938cc03e2
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
