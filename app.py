@@ -215,7 +215,4 @@ def email_duplicate_check():
 
 
 if __name__ == '__main__':
-    # app.run('0.0.0.0', port=5000, debug=True)
-    client = MongoClient("mongodb://smRLadlTwh:smRLadlTwh-sparta@13.124.198.117/developITdb")
-    db = client['developITdb']
-    print(list(db.user.find({})))
+    app.run('0.0.0.0', port=5000, debug=True)
