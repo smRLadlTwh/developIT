@@ -4,6 +4,7 @@ import json
 import jwt
 import os
 import uuid
+from bson.json_util import dumps
 
 from pymongo import MongoClient
 
@@ -82,20 +83,6 @@ def show_favorite():
         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
         user_info = db.user.find_one({"user.uuid": payload["uuid"]})
 
-        print(user_info)
-
-        if user_info.get('favorites') is None:
-            return {"result": "success", 'data': ''}
-        else :
-            favorite_board = []
-            favorite_board = user_info['favorites']
-
-        response = {
-            "result": "success",
-            "data": favorite_board,
-        }
-
-        print(response)
-
-    finally:
-        return response
+        return {'data': dumps(user_info)}
+    except jwt.ExpiredSignatureError:
+        return {"result": "success", "status_code": 400, "error_message": 'EXPIRED_TOKEN'}
