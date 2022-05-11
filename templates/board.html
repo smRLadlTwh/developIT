@@ -89,6 +89,9 @@
 
     <script>
         $(document).ready(function () {
+            {% if token %}
+            $.cookie('token', '{{ token }}', {path: '/'})
+            {% endif %}
             let params = new URLSearchParams(window.location.search);
             let page = 1;
             if (params.get('page') != null) {
@@ -307,7 +310,6 @@
 </main><!-- main -->
 <footer include-html="/footer" role="contentinfo"></footer>
 
-<script src="https://code.jquery.com/jquery.js"></script>
 </body>
 <script>
     includeHTML(function () {

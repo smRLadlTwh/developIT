@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, jsonify, request, redirect
+from flask import Flask, render_template, jsonify, request, redirect, session
 from pymongo import MongoClient
 
 import requests
@@ -11,7 +11,7 @@ from configs.config_local import CLIENT_ID, REDIRECT_URI
 from controller import Oauth
 
 app = Flask(__name__)
-app.secret_key = ""
+app.secret_key = "secret_key"
 
 if os.environ['env'] == 'prod':
     from configs import config_prod as config
@@ -145,11 +145,20 @@ def oauth_api():
     user = oauth.userinfo("Bearer " + auth_info['access_token'])
     print(user)
 
-    # session['token'] = auth_info['access_token']
-    # 로그아웃에 사용될 세션 값 = 쿠키값
+    session['access_token'] = auth_info['access_token']
+
+    print(user['kakao_account']['email'])
+
+    exists = sign.social_sign_in(user['kakao_account']['email'])
+    print(exists)
+
+    if exists is False:
+        return redirect('http://localhost:5000/social-sign-up')  # 서비스 홈페이지로 redirect
+    else:
+        return render_template('board.html', token=exists)  # 서비스 홈페이지로 redirect
+
 
     # 로직: user안에 내가 입력한 정보(이름,번화번호)가 있으면 board로 redirect시켜주고 없을때는 추가정보입력하도록 social sign up으로 redirect해주기
-    return redirect('http://localhost:5000/social-sign-up')  # 서비스 홈페이지로 redirect
 
 
 @app.route("/oauth/userinfo", methods=['POST'])
