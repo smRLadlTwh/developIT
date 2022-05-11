@@ -5,17 +5,19 @@
     <title>login</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gamja+Flower&family=Jua&display=swap"
           rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 
     <style>
+
         * {
             font-family: 'Do Hyeon', sans-serif
         }
@@ -47,41 +49,91 @@
         }
     </style>
 
+    <script>
+        function to_social_sign_up() {
+            $.ajax({
+                type: "GET",
+                url: "/oauth/url",
+                data: {},
+                success: function (response) {
+                    console.log(response)
+                    let url = response['kakao_oauth_url']
+                    console.log(url)
+                    window.location.replace(url);
+                }
+            });
+        }
+
+        function to_sign_up() {
+            window.location.href = "/sign-up"
+        }
+
+        function sign_in() {
+            let email = $("#email").val()
+            let password = $("#password").val()
+
+            console.log(password)
+
+            $.ajax({
+                type: "POST",
+                url: "/api/login",
+                data: {
+                    email: email,
+                    pw: password,
+                },
+                success: function (response) {
+                    if (response['result'] === 'success') {
+                        let token = response['token'] //토큰 값
+                        console.log(token)
+                        $.cookie('token', token, {path: '/'});
+                        window.location.replace('/board')
+                    } else {
+                        alert('회원가입에 실패하였습니다.')
+                        return
+                    }
+                }
+            })
+
+        }
+    </script>
+
+
 </head>
 <body>
-        <div class="login-form">
+<div class="login-form">
 
-            <div action="/examples/actions/confirmation.php" method="post">
-                <h2 class="text-center">로고가 들어갈 자리</h2>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block">카카오톡으로 3초만에 시작하기</button>
-                    <button type="submit" class="btn btn-primary btn-block">이메일로 가입하기</button>
-                </div>
-            </div>
-
-            <div action="/examples/actions/confirmation.php" method="post">
-
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="아이디" required="required">
-                </div>
-
-                <div class="form-group">
-                    <input type="password" class="form-control" placeholder="비밀번호" required="required">
-                </div>
-
-                <div class="clearfix">
-                    <a href="#" class="pull-right">아이디 비밀번호 찾기</a>
-                </div>
-
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block">로그인</button>
-                </div>
-
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block">회원가입</button>
-                </div>
-            </div>
+    <div action="/examples/actions/confirmation.php" method="post">
+        <div class="logo">
+            <img src="/static/logo.png" width="330" alt="">
+        </div>
+        <div class="form-group">
+            <button onclick=to_social_sign_up() type="button" style="border:none; padding: 1px; margin-bottom: 5px;">
+                <img src="/static/kakao_login_large_wide.png" width="340" alt="" id="kakao"></button>
+            <button onclick=to_sign_up() type="button" class="btn btn-primary btn-block">이메일로 가입하기</button>
 
         </div>
+    </div>
+
+    <div action="/examples/actions/confirmation.php" method="post">
+
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="이메일" required="required" id="email">
+        </div>
+
+        <div class="form-group">
+            <input type="password" class="form-control" placeholder="비밀번호" required="required" id="password">
+        </div>
+
+        <div class="clearfix">
+            <a href="#" class="pull-right">아이디 비밀번호 찾기</a>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block" onclick="sign_in()">로그인</button>
+        </div>
+
+    </div>
+
+</div>
 </body>
 </html>

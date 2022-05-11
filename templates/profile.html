@@ -1,10 +1,158 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <meta charset="utf-8">
+    <title>DevIT</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/bootstrap.css">
 
+    <script src="/static/includeHTML.js"></script>
+    <script src="/static/includeRouter.js"></script>
+    <style>
+        * {
+            font-family: 'Do Hyeon', sans-serif;
+        }
+    </style>
+
+    {'result': 'success', 'data': [{'uuid': '55072010-eed2-4fe3-8e3c-115f4aeb797c', 'board_uuid': '4bb31ff2-7f97-44a9-b6a2-76117eb44675', 'image_url': 'default_image.jpeg', 'title': '가입인사', 'cost': '100', 'writer_name': '닉네임3', 'create_at': '2022-05-11 17:54:34'}]}
+
+    <script>
+        $(function(){
+            $.ajax({
+                type: "GET",
+                url: "/api/favorite",
+                data: {},
+                success: function (response) {
+                    if (response['data'] === '') {
+                        let tmp_html = ``;
+                    }
+                    else {
+                        let image_url
+
+                        let tmp_html = `
+                        <div class="col" onclick="" style="width: 16rem; padding-left: 5px">
+                        <div class="card h-100">
+                            <img class="no-border img-thumbnail"
+                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcE9NGEQuAXw1Cg98jbhhhUfM2IpZcWilwHg&usqp=CAU"
+                                 alt="이미지">
+                            <div class="card-body">
+                                <a target="_blank" class="card-title">카카오 개발자 모집</a>
+                                <p class="card-text">KAKAO</p>
+                                <p class="card-text comment">300,000원</p>
+                            </div>
+                        </div>
+                    </div>
+                        `;
+                    }
+                }
+            })
+         });
+
+    </script>
+</head>
+
+<body>
+<header include-html="/header"></header>
+<div class="wrap" style="padding-top: 90px">
+    <div class="profile-header">
+        <div class="profile-img">
+            <img src="http://res.heraldm.com/content/image/2022/05/05/20220505000124_0.jpg" width="200" alt="img">
+        </div>
+    </div>
+    <div class="main-bd">
+        <div class="left-side">
+            <div class="profile-side">
+                <p class="user-mail"><i class="fa fa-envelope"></i>김대희</p>
+                <p class="user-mail"><i class="fa fa-envelope"></i>1998opening@gmail.com</p>
+                <p class="mobile-no"><i class="fa fa-phone"></i>010-7101-7094</p>
+            </div>
+        </div>
+        <div class="right-side">
+            <div class="nav">
+                <ul>
+                    <li onclick="tabs(0)" class="user-post active">이력서</li>
+                    <li onclick="tabs(1)" class="user-review">프로필</li>
+                    <li onclick="tabs(2)" class="user-setting">관심 공고</li>
+                </ul>
+            </div>
+            <div class="profile-body">
+                <div class="profile-posts tab">
+                    <h1>Your Post</h1>
+                    <p>dadwfawfw</p>
+                </div>
+                <div class="profile-review tab">
+                    <h1>Your re</h1>
+                    <p>dadwfawfw</p>
+                </div>
+                <div class="profile-setting tab">
+                    <div class="col" onclick="" style="width: 16rem; padding-left: 5px">
+                        <div class="card h-100">
+                            <img class="no-border img-thumbnail"
+                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcE9NGEQuAXw1Cg98jbhhhUfM2IpZcWilwHg&usqp=CAU"
+                                 alt="이미지">
+                            <div class="card-body">
+                                <a target="_blank" class="card-title">카카오 개발자 모집</a>
+                                <p class="card-text">KAKAO</p>
+                                <p class="card-text comment">300,000원</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col" onclick="" style="width: 16rem; padding-left: 5px">
+                        <div class="card h-100">
+                            <img class="no-border img-thumbnail"
+                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcE9NGEQuAXw1Cg98jbhhhUfM2IpZcWilwHg&usqp=CAU"
+                                 alt="이미지">
+                            <div class="card-body">
+                                <a target="_blank" class="card-title">카카오 개발자 모집</a>
+                                <p class="card-text">KAKAO</p>
+                                <p class="card-text comment">300,000원</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col" onclick="" style="width: 16rem; padding-left: 5px">
+                        <div class="card h-100">
+                            <img class="no-border img-thumbnail"
+                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcE9NGEQuAXw1Cg98jbhhhUfM2IpZcWilwHg&usqp=CAU"
+                                 alt="이미지">
+                            <div class="card-body">
+                                <a target="_blank" class="card-title">카카오 개발자 모집</a>
+                                <p class="card-text">KAKAO</p>
+                                <p class="card-text comment">300,000원</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col" onclick="" style="width: 16rem; padding-left: 5px">
+                        <div class="card h-100">
+                            <img class="no-border img-thumbnail"
+                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcE9NGEQuAXw1Cg98jbhhhUfM2IpZcWilwHg&usqp=CAU"
+                                 alt="이미지">
+                            <div class="card-body">
+                                <a target="_blank" class="card-title">카카오 개발자 모집</a>
+                                <p class="card-text">KAKAO</p>
+                                <p class="card-text comment">300,000원</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<footer include-html="/footer" role="contentinfo"></footer>
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="/static/profile.js"></script>
+
+<script>
+    includeHTML(function () {
+        includeRouter(function () {
+            // do something in the future
+        });
+    });
+</script>
 </body>
+
 </html>
