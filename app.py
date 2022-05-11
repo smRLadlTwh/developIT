@@ -5,7 +5,6 @@ import requests
 import board
 import favorites
 import sign
-from configs.config_local import CLIENT_ID, REDIRECT_URI
 from controller import Oauth
 
 app = Flask(__name__)
@@ -14,10 +13,14 @@ app.secret_key = "secret_key"
 if os.environ['env'] == 'prod':
     client = MongoClient(f'{os.environ["host"]}', 27017, username=f'{os.environ["user"]}',
                          password=f'{os.environ["password"]}')
+    CLIENT_ID = os.environ['CLIENT_ID']
+    REDIRECT_URI = os.environ['REDIRECT_URI']
 else:
     from configs import config_local as config
 
     client = MongoClient(f'{config.host}', 27017)
+    CLIENT_ID = config.CLIENT_ID
+    REDIRECT_URI = config.REDIRECT_URI
 
 db = client.developITdb
 
