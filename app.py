@@ -1,8 +1,9 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from pymongo import MongoClient
 import os
-import board
+import board, favorites
 import sign
+from configs.config_local import CLIENT_ID, REDIRECT_URI
 
 app = Flask(__name__)
 
@@ -27,13 +28,13 @@ def board_page():
 
 # 메인 페이지 반환
 @app.route("/")
-def index():
+def index_page():
     return render_template('index.html')
 
 
 # 로그인 페이지 반환
 @app.route("/login")
-def login():
+def login_page():
     return render_template('login.html')
 
 
@@ -41,6 +42,12 @@ def login():
 @app.route("/sign-up")
 def sign_up_page():
     return render_template('sign-up.html')
+
+
+# 프로필 페이지 반환
+@app.route('/profile')
+def profile_page():
+    return render_template('profile.html')
 
 
 # 게시글 업로드 페이지 반환
@@ -82,6 +89,12 @@ def board_write():
     return jsonify(response)
 
 
+@app.route('/api/favorites', methods=['GET'])
+def board_favorite():
+    response = favorites.show_favorite()
+    return jsonify(response)
+
+
 # 게시글 전체 보여주기 API
 @app.route("/api/board", methods=['GET'])
 def board_entire_show():
@@ -108,6 +121,14 @@ def sign_up():
 def email_duplicate_check():
     response = sign.email_duplicate_check()
     return jsonify(response)
+
+
+@app.route('/oauth/url')
+def oauth_url_api():
+    return jsonify(
+        kakao_oauth_url="https://kauth.kakao.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code" \
+                        % (CLIENT_ID, REDIRECT_URI)
+    )
 
 
 if __name__ == '__main__':
