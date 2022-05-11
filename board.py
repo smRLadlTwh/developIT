@@ -139,16 +139,14 @@ def board_show():
                     page_size))
             count = len(list(
                 db.board.find({"$or": [{'board.title': like_search}, {'board.content': like_search}]},
-                              {'_id': False}).sort('board.created_at', -1).skip((page - 1) * page_size).limit(
-                    page_size)))
+                              {'_id': False}).sort('board.created_at', -1)))
         # 검색어가 없는 경우
         else:
             boards = list(
                 db.board.find({}, {'_id': False}).sort('board.created_at', -1).skip((page - 1) * page_size).limit(
                     page_size))
             count = len(list(
-                db.board.find({}, {'_id': False}).sort('board.created_at', -1).skip((page - 1) * page_size).limit(
-                    page_size)))
+                db.board.find({}, {'_id': False}).sort('board.created_at', -1)))
 
         now = datetime.datetime.now()
         time = now.strftime('%Y-%m-%d %H:%M:%S')
