@@ -28,13 +28,14 @@ def board_page():
 # 메인 페이지 반환
 @app.route("/")
 def index():
-    return render_template('login.html')
+    return render_template('index.html')
 
 
 # 로그인 페이지 반환
-# @app.route("/login")
-# def index():
-#     return render_template('login.html')
+@app.route("/login")
+def login():
+    return render_template('login.html')
+
 
 # 회원가입 반환
 @app.route("/sign-up")
