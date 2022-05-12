@@ -91,6 +91,36 @@
             position: relative;
         }
 
+        .min-box {
+            min-height: 300px;
+        }
+
+        .success-alarm {
+            width: 100%;
+            margin-bottom: 30px;
+            margin-top: 30px;
+            padding: 100px;
+            background-color: white;
+        }
+
+        .alarm-text {
+            font-family: 'Do Hyeon', sans-serif;
+            width: max-content;
+            margin: auto;
+        }
+
+        .button-text {
+            width: max-content;
+            margin: auto;
+            color: #337ab7;
+            display: block;
+        }
+
+        .alarm-logo {
+            width: 200px;
+            margin: auto auto 30px;
+        }
+
     </style>
 
     <script>
@@ -194,8 +224,8 @@
         function boardList(page, searchText) {
             $('#board-list').empty();
             $('#button-list').empty();
+            $('#recent-list').empty()
             let pageSize = 5;
-
 
             $.ajax({
                 type: "GET",
@@ -211,7 +241,29 @@
                         $('#search-text').text(`${total} results for ${searchText}`)
                     }
 
+                    if (boards.length === 0) {
+                        let tmp_html = `
+                        <div class="success-alarm">
+                         <img src="/static/logo.png" class="alarm-logo"/>
+                          <h3 class="alarm-text">아직 구인 글이 없습니다.</h3>
+                          <h3 class="alarm-text">첫 구인 글을 등록해 주시겠어요?</h3>
+                          <a class="button-text" onclick="boardWrite()"> [구인 글 작성] </a>
+                        </div>
+                        `
+
+                        $('#board-list').append(tmp_html)
+
+                    }
+
                     for (let i = 0; i < boards.length; i++) {
+
+                        if(i<5) {
+                            let tmp_html = `
+                                    <li><a href="#">${boards[i]['board']['title']}</a></li>
+
+                            `;
+                            $('#recent-list').append(tmp_html)
+                        }
 
                         let title = boards[i]['board']['title'];
                         let content = boards[i]['board']['content'];
@@ -403,18 +455,16 @@
                     </form>
                 </div>
                 <div class="widget">
-                    <h4>검색 조건</h4>
+                    <h4>검색을 통해 찾아보세요</h4>
                     <div class="textwidget">
-                        검색은 제목과 내용에서 검색됩니다...어쩌구
+                        검색은 제목과 내용에서 모두 검색됩니다. <br/>
+                        검색을 통해 딱맞는 공고를 찾아보세요!
                     </div>
                 </div>
                 <div class="widget">
                     <h4>Recent Posts</h4>
-                    <ul class="plain">
-                        <li><a href="#">Uff e che fatica</a></li>
-                        <li><a href="#">Un weekend al mare</a></li>
-                        <li><a href="#">Il signor Kasper</a></li>
-                        <li><a href="#">Ottimo lavoro</a></li>
+                    <ul class="plain" id="recent-list">
+
                     </ul>
                 </div>
                 <div class="widget">
