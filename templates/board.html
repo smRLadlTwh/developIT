@@ -151,11 +151,26 @@
 
 
 
-        function favorite(dic) {
+        function favorite_write(dic) {
 
             $.ajax({
                 type: "POST",
                 url: `/api/favorite/write`,
+                data: {
+                    board_id : dic //게시글 pk 값
+                },
+                success: function (response) {
+                    console.log(response)
+
+                }
+             })
+        }
+
+        function favorite_delete(dic) {
+
+            $.ajax({
+                type: "POST",
+                url: `/api/favorite/delete`,
                 data: {
                     board_id : dic //게시글 pk 값
                 },
@@ -201,7 +216,8 @@
                         <article class="clear-after white-card">
                             <div class="column three">
                                 <img src="/static/logo.png" alt="" class="thumbnail">
-                                <button class="btn1" type="button" onclick="favorite('${board_id}')">즐겨찾기</button>
+                                <button class="btn1" type="button" onclick="favorite_write('${board_id}')">즐겨찾기등록</button>
+                                <button class="btn1" type="button" onclick="favorite_delete('${board_id}')">즐겨찾기해제</button>
                             </div>
                             <div class="column nine last">
                                 <h2><a href="#">${title}</a></h2>
