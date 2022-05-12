@@ -34,11 +34,27 @@
         .is-safe {
             color: #0275D8;
         }
+
+        .alert {
+            background-color: #E3F6CE;
+            width: 100%;
+            padding: 10px;
+            color: #0B6121;;
+        }
+
+        .alert-text {
+            width: max-content;
+            margin: auto;
+        }
     </style>
     <script>
+
+        $(document).ready(function () {
+            $('#logout-alert').prop('hidden', true);
+        })
+
         function check_dup() {
             let email = $('#email').val()
-            console.log(email)
 
             $.ajax({
                 type: "POST",
@@ -63,9 +79,8 @@
             let confirm = $("#confirm").val()
             let phone_number = $("#phone_number").val()
             let name = $("#name").val()
-            console.log(password, confirm)
 
-            if (password != confirm) {
+            if (password !== confirm) {
                 $("#help-password-login").text("비밀번호가 일치하지 않습니다.")
                 $("#password").focus()
                 return;
@@ -82,9 +97,12 @@
                 },
                 success: function (response) {
                     if (response['status_code'] === 201) {
-                        console.log(response)
-                        alert('회원가입 성공 !')
-                        window.location.replace("/login")
+                        $('html').scrollTop(0);
+                        $('#logout-alert').prop('hidden', false);
+                        setTimeout(function () {
+                            $('#logout-alert').prop('hidden', true);
+                            window.location.replace("/login")
+                        }, 2000);
                     }
                 }
             });
@@ -93,6 +111,9 @@
 
 </head>
 <body>
+<div class="alert" role="alert" id="logout-alert">
+    <p class="alert-text">회원가입 성공</p>
+</div>
 <div class="container">
 
     <div class="row justify-content-center">
