@@ -80,6 +80,8 @@ def sign_up():
 
     password_hash = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
     user_uuid = str(uuid.uuid4())
+
+    print('user_uuid = ' + user_uuid)
     doc = {
         'user': {
             "uuid": str(user_uuid),
@@ -90,6 +92,8 @@ def sign_up():
             "created_at": time
         }
     }
+    print('------ user_insert ------')
+    print(doc)
     db.user.insert_one(doc)
 
     print(doc)
@@ -104,6 +108,12 @@ def sign_up():
         print(payload)
         # 시크릿 키를 이용하여 암호화
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+        print('-----payload----')
+        print(payload)
+        # 시크릿 키를 이용하여 암호화
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        print('-----token----')
         print(token)
         return {'result': 'success', 'status_code': 201, "token": token}
     else:

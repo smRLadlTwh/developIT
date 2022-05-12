@@ -91,6 +91,7 @@ def board_upload_fail_page():
 # 페이지 내 header 부분 반환
 @app.route("/header")
 def header():
+    print('------header page request------')
     login_type = user_type()
     return render_template('header.html', type=login_type)
 

@@ -116,6 +116,7 @@ def board_write():
 def board_show():
     token = request.cookies.get('token')
     if token is None:
+        print('token not found')
         abort(404, '토큰 정보가 존재하지 않습니다.')
     try:
         # 유저 정보 식별
@@ -123,6 +124,7 @@ def board_show():
         user_info = db.user.find_one({"user.uuid": payload["uuid"]})
         if user_info is None:
             abort(404, '회원 정보가 존재하지 않습니다.')
+            print('user not found')
 
         if request.args.get('page') is not None and request.args.get('page') != 'null':
             page = int(request.args.get('page'))
