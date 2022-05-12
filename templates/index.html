@@ -8,16 +8,23 @@
     <meta name="description" content=""/>
     <meta name="keywords" content="free template, bootstrap, bootstrap4"/>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="/static/bootstrap.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@300&family=Nanum+Gothic:wght@400;800&display=swap"
           rel="stylesheet">
+    <script src="/static/includeHTML.js"></script>
+    <script src="/static/includeRouter.js"></script>
 
     <style>
         * {
             font-family: 'Do Hyeon', sans-serif
+        }
+
+        p {
+            font-size: 1.3rem;
         }
     </style>
 
@@ -43,87 +50,50 @@
 
 <nav class="site-nav">
     <div class="container">
-        <div class="site-navigation">
-            <a href="index.html" class="logo float-left m-0">Style <span class="text-primary">.</span></a>
-
-            <ul class="js-clone-nav d-none d-lg-inline-noone text-left site-menu">
-                <li class="active"><a href="index.html">Home</a></li>
-                <li class="has-children">
-                    <a href="#">Pages</a>
-                    <ul class="dropdown">
-                        <li><a href="portfolio.html">Portfolio</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="single.html">Single</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-
-                        <li class="has-children">
-                            <a href="#">Menu Two</a>
-                            <ul class="dropdown">
-                                <li><a href="#">Sub Menu One</a></li>
-                                <li><a href="#">Sub Menu Two</a></li>
-                                <li><a href="#">Sub Menu Three</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Menu Three</a></li>
-                    </ul>
-                </li>
-                <li><a href="portfolio.html">Portfolio</a></li>
-                <li><a href="elements.html">Elements</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
-            </ul>
-
-            <a href="#" class="burger ml-auto float-right site-menu-toggle js-menu-toggle d-inline-block d-lg-block"
-               data-toggle="collapse" data-target="#main-navbar">
-                <span></span>
-            </a>
-
-        </div>
     </div>
 </nav>
 
-<div class="custom-hero">
+
+<div class="custom-hero section">
     <div class="container">
+        <div style="margin: auto; width: 250px">
+            <img src="/static/logo-removebg.png" alt="Image"
+                 class="">
+        </div>
         <div class="row justify-content-center">
             <div class="col-lg-6">
-                <div class="line js-line mx-auto mb-3 my-3"></div>
-                <p class="sub-text">당신의 가치를 증명하세요.</p>
+                <h1 style="margin-top: 50px">당신의 가치를 증명하세요</h1>
+                <p>당신을 필요로 하는 곳에서 당신의 가치를 새롭게 정의 해드립니다.</p>
+                <p>개발자의 새로운 시작을 알리세요.</p>
+                <p><a href="login" class="btn btn-primary" style="width: 300px">시작하기</a></p>
             </div>
         </div>
     </div>
 </div>
 
+
 <div class="site-section">
     <div class="container">
-        <div class="row align-items-center justify-content-around">
-
-            <div class="col-lg-4 text-center">
-
-                <div>
-                    <div data-jarallax-element="-100" class="jarallax">
-                        <h2>Minimal Design</h2>
-                        <span class="d-inline-block">Minimalist Design</span>
-                        <img src="https://i.pinimg.com/564x/ce/01/14/ce011409d1eb304d266c02d29b819ea9.jpg" alt="Image"
-                             class="img-fluid my-3 my-lg-5">
-                        <p class="line-top fig-2-text mb-4">Far far away, behind the word mountains, far from the
-                            countries Vokalia and Consonantia, there live the blind texts.</p>
+        <div class="align-items-center justify-content-around">
+            <div>
+                <div data-jarallax-element="-100" class="jarallax" style="height: 500px; text-align: center">
+                    <h2>일간 업데이트 수</h2>
+                    <div style="width: 700px; height: 800px;">
+                        <!--차트가 그려질 부분-->
+                        <canvas id="myChart-1"></canvas>
                     </div>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
                 </div>
-
             </div>
-            <div class="col-lg-5 mt-5">
 
-                <div>
-                    <h2>Minimal Watch</h2>
-                    <span class="d-inline-block">Innovative Design</span>
-
-                    <div class="line me-auto mb-3 mt-3"></div>
-
-                    <p class="line-top fig-2-text my-4">Far far away, behind the word mountains, far from the countries
-                        Vokalia and Consonantia, there live the blind texts.</p>
-                    <img src="https://i.pinimg.com/474x/ef/fd/ef/effdefb53b4d3d90cec6795b750cb64a.jpg" alt="Image"
-                         class="img-fluid">
+            <div>
+                <div data-jarallax-element="-100" class="jarallax" style="text-align: center;">
+                    <h2>DATA 2</h2>
+                    <div style="width: 500px; height: 400px; margin-left: 40%">
+                        <!--차트가 그려질 부분-->
+                        <canvas id="myChart-2"></canvas>
+                    </div>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
                 </div>
             </div>
         </div>
@@ -149,74 +119,194 @@
 
 
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-5">
 
-                <h2 class="mb-4">개발잇은 제공합니다.</h2>
+                <h2 class="mb-4" style="color: #1C2858;">개발잇은 제공합니다.</h2>
                 <div class="line my-3"></div>
-                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live
-                    the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large
-                    language ocean.</p>
+                <p> 프로그래밍 아르바이트를 구하고 싶으신가요 ?</p>
+                <p> 현업에서 일하시는 분의 조언을 받고 싶으신가요 ?</p>
+                <p> 시니어 개발자에게 운영 코드를 검토 받고 싶은신가요 ?</p>
 
-                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a
-                    paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+                <p>저희 개발잇은 다음과 같은 고민을 가지신 분들을 환영합니다. 혼자서 해결하지 마세요. 합당한 가격에 개인에 요구사항에 맞춘 적합한 개발자를 찾으세요.
+                    개발잇은 전세계의 개발자를 응원합니다.</p>
             </div>
         </div>
     </div>
 </div>
 
 <div class="section">
-    <div class="container">
+    <div>
+        <h1 style="text-align: center; color: #1C2858">STEPS</h1>
+    </div>
+    <div class="container" style="margin-top: 40px">
         <div class="row">
             <div class="col-12 col-md-6 col-lg-4 mb-lg-0 mb-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="service-2 d-flex align-items-md-center">
                     <div class="image">
-                        <img src="/static/example.png" alt="Image" class="img-fluid">
+                        {#                        <img src="/static/example.png" alt="Image" class="img-fluid">#}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="160" height="120" fill="currentColor"
+                             class="bi bi-person-rolodex" viewBox="0 0 16 16">
+                            <path d="M8 9.05a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
+                            <path d="M1 1a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h.5a.5.5 0 0 0 .5-.5.5.5 0 0 1 1 0 .5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5.5.5 0 0 1 1 0 .5.5 0 0 0 .5.5h.5a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H6.707L6 1.293A1 1 0 0 0 5.293 1H1Zm0 1h4.293L6 2.707A1 1 0 0 0 6.707 3H15v10h-.085a1.5 1.5 0 0 0-2.4-.63C11.885 11.223 10.554 10 8 10c-2.555 0-3.886 1.224-4.514 2.37a1.5 1.5 0 0 0-2.4.63H1V2Z"/>
+                        </svg>
                     </div>
                     <div class="text">
-                        <h2>Sneakers</h2>
-                        <p>Far far away, behind the word mountains, far from the countries.</p>
+                        <h2 style="color: #1C2858;">STEP 1</h2>
+                        <p>이력서를 작성하고 회원들에게 당신을 어필하세요.</p>
                     </div>
                 </div>
             </div>
 
-            <div class="col-12 col-md-6 col-lg-4 mb-lg-0 mb-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="col-12 col-md-6 col-lg-4 mb-lg-0 mb-4" style="padding-left: 20px" data-aos="fade-up"
+                 data-aos-delay="200">
                 <div class="service-2 d-flex align-items-md-center">
                     <div class="image">
-                        <img src="/static/example.png" alt="Image" class="img-fluid">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="160" height="130" fill="currentColor"
+                             class="bi bi-display" viewBox="0 0 16 16">
+                            <path d="M0 4s0-2 2-2h12s2 0 2 2v6s0 2-2 2h-4c0 .667.083 1.167.25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75c.167-.333.25-.833.25-1.5H2s-2 0-2-2V4zm1.398-.855a.758.758 0 0 0-.254.302A1.46 1.46 0 0 0 1 4.01V10c0 .325.078.502.145.602.07.105.17.188.302.254a1.464 1.464 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.758.758 0 0 0 .254-.302 1.464 1.464 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.757.757 0 0 0-.302-.254A1.46 1.46 0 0 0 13.99 3H2c-.325 0-.502.078-.602.145z"/>
+                        </svg>
                     </div>
                     <div class="text">
-                        <h2>STEP 2</h2>
-                        <p>Far far away, behind the word mountains, far from the countries.</p>
+                        <h2 style="color: #1C2858;">STEP 2</h2>
+                        <p>조건에 부합하는 일을 찾아, 마음껏 지원하세요.</p>
                     </div>
                 </div>
             </div>
 
-            <div class="col-12 col-md-6 col-lg-4 mb-lg-0 mb-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="col-12 col-md-6 col-lg-4 mb-lg-0 mb-4" style="padding-left: 30px" data-aos="fade-up"
+                 data-aos-delay="300">
                 <div class="service-2 d-flex align-items-md-center">
                     <div class="image">
-                        <img src="/static/example.png" alt="Image" class="img-fluid">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="150" height="110" fill="currentColor"
+                             class="bi bi-emoji-sunglasses" viewBox="0 0 16 16">
+                            <path d="M4.968 9.75a.5.5 0 1 0-.866.5A4.498 4.498 0 0 0 8 12.5a4.5 4.5 0 0 0 3.898-2.25.5.5 0 1 0-.866-.5A3.498 3.498 0 0 1 8 11.5a3.498 3.498 0 0 1-3.032-1.75zM7 5.116V5a1 1 0 0 0-1-1H3.28a1 1 0 0 0-.97 1.243l.311 1.242A2 2 0 0 0 4.561 8H5a2 2 0 0 0 1.994-1.839A2.99 2.99 0 0 1 8 6c.393 0 .74.064 1.006.161A2 2 0 0 0 11 8h.438a2 2 0 0 0 1.94-1.515l.311-1.242A1 1 0 0 0 12.72 4H10a1 1 0 0 0-1 1v.116A4.22 4.22 0 0 0 8 5c-.35 0-.69.04-1 .116z"/>
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-1 0A7 7 0 1 0 1 8a7 7 0 0 0 14 0z"/>
+                        </svg>
                     </div>
                     <div class="text">
-                        <h2>Accessories</h2>
-                        <p>Far far away, behind the word mountains, far from the countries.</p>
+                        <h2 style="color: #1C2858;">STEP 3</h2>
+                        <p>멋지게 일을 마친 후, 당신의 가치를 증명하세요.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<footer include-html="/footer" role="contentinfo"></footer>
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="/static/profile.js"></script>
 
-<div class="custom-hero section">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <h1 style="font-family: 'Do Hyeon', sans-serif">당신의 가치를 증명하세요</h1>
-                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live
-                    the blind texts.</p>
-                <p><a href="login" class="btn btn-primary">시작하기</a></p>
-            </div>
-        </div>
-    </div>
-</div>
+<script>
+    includeHTML(function () {
+        includeRouter(function () {
+            // do something in the future
+        });
+    });
+</script>
+<script type="text/javascript">
+
+    $.ajax({
+        type: "GET",
+        url: `/api/statistics`,
+        data: {},
+        success: function (response) {
+            let data = response['data']
+            let context_1 = document
+                .getElementById('myChart-1')
+                .getContext('2d');
+            let context_2 = document
+                .getElementById('myChart-2')
+                .getContext('2d');
+            let myChart_1 = new Chart(context_1, {
+                type: 'line', // 차트의 형태
+                data: { // 차트에 들어갈 데이터
+                    labels: [
+                        //x 축
+                        `${data['label'][0]}`, `${data['label'][1]}`, `${data['label'][2]}`, `${data['label'][3]}`, `${data['label'][4]}`],
+                    datasets: [
+                        { //데이터
+                            label: '신규 등록 구인 글 수', //차트 제목
+                            fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+                            data: [
+                                `${data['board'][0]}`, `${data['board'][1]}`, `${data['board'][2]}`, `${data['board'][3]}`, `${data['board'][4]}`
+                            ],
+                            backgroundColor: [
+                                //색상
+                                '#1C2858'
+                            ],
+                            borderColor: [
+                                //경계선 색상
+                                '#1C2858'
+                            ],
+                            borderWidth: 2 //경계선 굵기
+                        } ,
+                         { //데이터
+                            label: '신규 가입자 수', //차트 제목
+                            fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+                            data: [
+                                `${data['user'][0]}`, `${data['user'][1]}`, `${data['user'][2]}`, `${data['user'][3]}`, `${data['user'][4]}`
+                            ],
+                            backgroundColor: [
+                                //색상
+                                '#F781BE'
+                            ],
+                            borderColor: [
+                                //경계선 색상
+                                '#F781BE'
+                            ],
+                            borderWidth: 2 //경계선 굵기
+                        } ,
+                    ]
+                },
+                options: {
+                    scales: {
+                        yAxes: [
+                            {
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }
+                        ]
+                    }
+                }
+            });
+            let myChart_2 = new Chart(context_2, {
+                type: 'polarArea', // 차트의 형태
+                data: { // 차트에 들어갈 데이터
+                    labels: ['코드 아르바이트', '대학생', '주니어 개발자', '시니어 개발자'], //차트 제목
+                    datasets: [
+                        { //데이터
+                            label: '게시글 카테고리 수',
+                            data: [
+                                21, 19, 25, 20 //x축 label에 대응되는 데이터 값
+                            ],
+                            backgroundColor: [
+                                //색상
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                            ],
+                        }/* ,
+                        {
+                            label: 'test2',
+                            fill: false,
+                            data: [
+                                8, 34, 12, 24
+                            ],
+                            backgroundColor: 'rgb(157, 109, 12)',
+                            borderColor: 'rgb(157, 109, 12)'
+                        } */
+                    ]
+                },
+                options: {
+                    responsive: true
+                }
+
+            })
+        }
+    })
+
+</script>
 </body>
 </html>
