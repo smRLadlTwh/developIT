@@ -7,6 +7,8 @@ import hashlib
 from pymongo import MongoClient
 import os
 
+import app
+
 if os.environ['env'] == 'prod':
     client = MongoClient(f'{os.environ["host"]}', 27017, username=f'{os.environ["user"]}',
                          password=f'{os.environ["password"]}')
@@ -62,8 +64,12 @@ def sign_in():
 
 # 회원가입
 def sign_up():
-    user_email = request.form['email']
-    user_pw = request.form['password']
+    if 'access_token' in session:
+        user_email = app.user_kakao_email()
+        user_pw = 'social'
+    else:
+        user_email = request.form['email']
+        user_pw = request.form['password']
     name = request.form['name']
     phone_number = request.form['phone_number']
     phone_number_replace = phone_number.replace("-", "")

@@ -131,6 +131,7 @@ def board_favorite_write():
     response = favorites.write_favorite(par)
     return jsonify(response)
 
+
 @app.route('/api/favorite/delete', methods=['POST'])
 def board_favorite_delete():
     par = request.form['board_id']
@@ -184,13 +185,19 @@ def oauth_api():
     exists = sign.social_sign_in(user['kakao_account']['email'])
     print(exists)
 
-
     if exists is False:
         return redirect('/social-sign-up')  # 서비스 홈페이지로 redirect
     else:
         return redirect(f'/board?token={exists}')  # 서비스 홈페이지로 redirect
 
     # 로직: user안에 내가 입력한 정보(이름,번화번호)가 있으면 board로 redirect시켜주고 없을때는 추가정보입력하도록 social sign up으로 redirect해주기
+
+
+# 카카오톡 유저 이메일 반환 함수
+def user_kakao_email():
+    oauth = Oauth()  # 토큰들을 담는 객체 생성
+    user = oauth.userinfo("Bearer " + session['access_token'])
+    return user['kakao_account']['email']
 
 
 @app.route("/oauth/userinfo", methods=['POST'])
@@ -208,7 +215,7 @@ def token_user_info(access_token):
 # 로그아웃 호출입. 세션 값 있으면 지우고 로그인 페이지로 렌더링
 @app.route("/oauth/logout")
 def logout():
-    #카카오 로그아웃 요청 url
+    # 카카오 로그아웃 요청 url
     kakao_oauth_url = f"https://kauth.kakao.com/oauth/logout?client_id=" \
                       f"{CLIENT_ID}&logout_redirect_uri={SIGNOUT_REDIRECT_URI}"
     # 로그아웃 검사 로직
@@ -220,6 +227,7 @@ def logout():
 
     print(kakao_oauth_url)
     return redirect(kakao_oauth_url)
+
 
 # 회원가입 API
 @app.route('/api/sign-up', methods=['POST'])
