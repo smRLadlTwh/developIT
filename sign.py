@@ -7,6 +7,8 @@ import hashlib
 from pymongo import MongoClient
 import os
 
+import app
+
 if os.environ['env'] == 'prod':
     client = MongoClient(f'{os.environ["host"]}', 27017, username=f'{os.environ["user"]}',
                          password=f'{os.environ["password"]}')
@@ -20,7 +22,6 @@ else:
 db = client.developITdb
 
 
-
 # 소셜 로그인
 def social_sign_in(email):
     exists = bool(db.user.find_one({"user.e_mail": email}))
@@ -28,7 +29,8 @@ def social_sign_in(email):
         user = db.user.find_one({'user.e_mail': email})
         payload = {
             'uuid': str(user['user']['uuid']),
-            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 6)  # 로그인 6시간 유지
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 6),  # 로그인 6시간 유지
+            'type': 'social'
         }
         # 시크릿 키를 이용하여 암호화
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
@@ -49,7 +51,8 @@ def sign_in():
     if user is not None:
         payload = {
             'uuid': str(user['user']['uuid']),
-            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 6)  # 로그인 6시간 유지
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 6),  # 로그인 6시간 유지
+            'type': 'general'
         }
         # 시크릿 키를 이용하여 암호화
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
@@ -61,8 +64,13 @@ def sign_in():
 
 # 회원가입
 def sign_up():
-    user_email = request.form['email']
-    user_pw = request.form['password']
+    if 'access_token' in session:
+        user_email = app.user_kakao_email()
+        user_pw = 'social'
+        print('social')
+    else:
+        user_email = request.form['email']
+        user_pw = request.form['password']
     name = request.form['name']
     phone_number = request.form['phone_number']
     phone_number_replace = phone_number.replace("-", "")
@@ -72,6 +80,8 @@ def sign_up():
 
     password_hash = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
     user_uuid = str(uuid.uuid4())
+
+    print('user_uuid = ' + user_uuid)
     doc = {
         'user': {
             "uuid": str(user_uuid),
@@ -82,15 +92,29 @@ def sign_up():
             "created_at": time
         }
     }
+    print('------ user_insert ------')
+    print(doc)
     db.user.insert_one(doc)
 
+    print(doc)
+
     if 'access_token' in session:
+        print('access_token')
         payload = {
             'uuid': str(user_uuid),
-            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 6)  # 로그인 6시간 유지
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 6),  # 로그인 6시간 유지
+            'type': 'social'
         }
+        print(payload)
         # 시크릿 키를 이용하여 암호화
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+        print('-----payload----')
+        print(payload)
+        # 시크릿 키를 이용하여 암호화
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        print('-----token----')
+        print(token)
         return {'result': 'success', 'status_code': 201, "token": token}
     else:
         return {'result': 'success', 'status_code': 201}

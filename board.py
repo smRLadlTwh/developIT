@@ -66,8 +66,13 @@ def board_write():
             file_path = f"{time}.{extension}"
             doc["image_url"] = file_path
 
-            s3 = boto3.client('s3', aws_access_key_id=config.aws_access_key,
-                              aws_secret_access_key=config.aws_secret_key)
+            if os.environ['env'] == 'prod':
+                s3 = boto3.client('s3', aws_access_key_id=os.environ["aws_access_key_id"],
+                                  aws_secret_access_key=os.environ["aws_secret_access_key"])
+            else:
+                s3 = boto3.client('s3', aws_access_key_id=config.aws_access_key,
+                                  aws_secret_access_key=config.aws_secret_key)
+
             s3.put_object(
                 ACL="public-read",
                 Bucket="devit-bucket",
@@ -111,6 +116,7 @@ def board_write():
 def board_show():
     token = request.cookies.get('token')
     if token is None:
+        print('token not found')
         abort(404, '토큰 정보가 존재하지 않습니다.')
     try:
         # 유저 정보 식별
@@ -118,6 +124,7 @@ def board_show():
         user_info = db.user.find_one({"user.uuid": payload["uuid"]})
         if user_info is None:
             abort(404, '회원 정보가 존재하지 않습니다.')
+            print('user not found')
 
         if request.args.get('page') is not None and request.args.get('page') != 'null':
             page = int(request.args.get('page'))
@@ -147,18 +154,38 @@ def board_show():
             count = len(list(
                 db.board.find({}, {'_id': False}).sort('board.created_at', -1)))
 
+        favorites = []
         now = datetime.datetime.now()
         time = now.strftime('%Y-%m-%d %H:%M:%S')
+        print(user_info)
 
-        response = {
-            'result': 'success',
-            'time': time,
-            'total': count,
-            'data': {
-                'boards': boards
-            },
-            'status_code': 201
-        }
+        if user_info.get('favorites') is not None:
+            favorites = user_info['favorites']
+            favorite_name = []
+            for favorite in favorites:
+                favorite_name.append(favorite['board_uuid'])
+
+            response = {
+                'result': 'success',
+                'time': time,
+                'total': count,
+                'data': {
+                    'boards': boards,
+                    'favorites': favorite_name,
+                },
+                'status_code': 201
+            }
+        else:
+            response = {
+                'result': 'success',
+                'time': time,
+                'total': count,
+                'data': {
+                    'boards': boards,
+                    'favorites': [],
+                },
+                'status_code': 201
+            }
 
         return response
     except jwt.ExpiredSignatureError:

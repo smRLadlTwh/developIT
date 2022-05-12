@@ -1,11 +1,12 @@
 import os
-from flask import Flask, render_template, jsonify, request, redirect, session
+
+import jwt
+from flask import Flask, render_template, jsonify, request, redirect, session, abort, url_for
 from pymongo import MongoClient
 import requests
 import board
 import favorites
 import sign
-from configs.config_local import CLIENT_ID, REDIRECT_URI
 from controller import Oauth
 
 app = Flask(__name__)
@@ -13,11 +14,21 @@ app.secret_key = "secret_key"
 
 if os.environ['env'] == 'prod':
     client = MongoClient(f'{os.environ["host"]}', 27017, username=f'{os.environ["user"]}',
-                         password=f'{os.environ["password"]}')
+                         password=f'{os.environ["password"]}', authSource="admin")
+    CLIENT_ID = os.environ['CLIENT_ID']
+    REDIRECT_URI = os.environ['REDIRECT_URI']
+    host = os.environ['host']
+    SECRET_KEY = os.environ["security"]
+    SIGNOUT_REDIRECT_URI = os.environ['SIGNOUT_REDIRECT_URI']
 else:
     from configs import config_local as config
 
     client = MongoClient(f'{config.host}', 27017)
+    CLIENT_ID = config.CLIENT_ID
+    REDIRECT_URI = config.REDIRECT_URI
+    host = config.host
+    SECRET_KEY = config.security
+    SIGNOUT_REDIRECT_URI = config.SIGNOUT_REDIRECT_URI
 
 db = client.developITdb
 
@@ -80,7 +91,17 @@ def board_upload_fail_page():
 # 페이지 내 header 부분 반환
 @app.route("/header")
 def header():
-    return render_template('header.html')
+    print('------header page request------')
+    login_type = user_type()
+    return render_template('header.html', type=login_type)
+
+
+def user_type():
+    token = request.cookies.get('token')
+    if token is None:
+        abort(404, '토큰 정보가 존재하지 않습니다.')
+    payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+    return payload["type"]
 
 
 # 페이지 내 footer 부분 반환
@@ -109,6 +130,14 @@ def board_favorite_write():
     par = request.form['board_id']
     print("par : " + par)
     response = favorites.write_favorite(par)
+    return jsonify(response)
+
+
+@app.route('/api/favorite/delete', methods=['POST'])
+def board_favorite_delete():
+    par = request.form['board_id']
+    print("par : " + par)
+    response = favorites.delete_favorite(par)
     return jsonify(response)
 
 
@@ -158,12 +187,18 @@ def oauth_api():
     print(exists)
 
     if exists is False:
-        return redirect('http://localhost:5000/social-sign-up')  # 서비스 홈페이지로 redirect
+        return redirect('/social-sign-up')  # 서비스 홈페이지로 redirect
     else:
-        return render_template('board.html', token=exists)  # 서비스 홈페이지로 redirect
-
+        return redirect(f'/board?token={exists}')  # 서비스 홈페이지로 redirect
 
     # 로직: user안에 내가 입력한 정보(이름,번화번호)가 있으면 board로 redirect시켜주고 없을때는 추가정보입력하도록 social sign up으로 redirect해주기
+
+
+# 카카오톡 유저 이메일 반환 함수
+def user_kakao_email():
+    oauth = Oauth()  # 토큰들을 담는 객체 생성
+    user = oauth.userinfo("Bearer " + session['access_token'])
+    return user['kakao_account']['email']
 
 
 @app.route("/oauth/userinfo", methods=['POST'])
@@ -178,23 +213,22 @@ def token_user_info(access_token):
     return user_info
 
 
-# # 로그아웃 호출입. 세션 값 있으면 지우고 로그인 페이지로 렌더링
-# @app.route("/oauth/logout")
-# def logout():
-#
-#     # 카카오 로그아웃 요청 url
-#     kakao_oauth_url = f"https://kauth.kakao.com/oauth/logout?client_id=" \
-#                       f"{CLIENT_ID}&logout_redirect_uri={SIGNOUT_REDIRECT_URI}"
-#
-#
-#     # 로그아웃 검사 로직
-#     if session.get('token'):
-#         session.clear()
-#         value = {"status": 200, "result": "success"}
-#     else:
-#         value = {"status": 404, "result": "fail"}
-#
-#     return redirect('http://localhost:5000/board')
+# 로그아웃 호출입. 세션 값 있으면 지우고 로그인 페이지로 렌더링
+@app.route("/oauth/logout")
+def logout():
+    # 카카오 로그아웃 요청 url
+    kakao_oauth_url = f"https://kauth.kakao.com/oauth/logout?client_id=" \
+                      f"{CLIENT_ID}&logout_redirect_uri={SIGNOUT_REDIRECT_URI}"
+    # 로그아웃 검사 로직
+    if session.get('token'):
+        session.clear()
+        value = {"status": 200, "result": "success"}
+    else:
+        value = {"status": 404, "result": "fail"}
+
+    print(kakao_oauth_url)
+    return redirect(kakao_oauth_url)
+
 
 # 회원가입 API
 @app.route('/api/sign-up', methods=['POST'])
@@ -204,7 +238,7 @@ def sign_up():
 
 
 # 이메일 중복 체크
-@app.route('/api/email-duplicate check', methods=['POST'])
+@app.route('/api/email-duplicate-check', methods=['POST'])
 def email_duplicate_check():
     response = sign.email_duplicate_check()
     return jsonify(response)
