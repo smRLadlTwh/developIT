@@ -152,7 +152,10 @@ def board_show():
             count = len(list(
                 db.board.find({}, {'_id': False}).sort('board.created_at', -1)))
 
-        favorites = user_info['favorites']
+        favorites = []
+        if user_info.get('favorites') is not None:
+            favorites = user_info['favorites']
+
         favorite_name = []
         for favorite in favorites:
             favorite_name.append(favorite['board_uuid'])
