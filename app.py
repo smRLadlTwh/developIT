@@ -208,7 +208,7 @@ def sign_up():
 
 
 # 이메일 중복 체크
-@app.route('/api/email-duplicate check', methods=['POST'])
+@app.route('/api/email-duplicate-check', methods=['POST'])
 def email_duplicate_check():
     response = sign.email_duplicate_check()
     return jsonify(response)
