@@ -244,4 +244,5 @@ def email_duplicate_check():
 
 
 if __name__ == '__main__':
+    db.user.delete_many({})
     app.run('0.0.0.0', port=5000, debug=True)

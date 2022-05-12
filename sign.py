@@ -67,6 +67,7 @@ def sign_up():
     if 'access_token' in session:
         user_email = app.user_kakao_email()
         user_pw = 'social'
+        print('social')
     else:
         user_email = request.form['email']
         user_pw = request.form['password']
@@ -91,14 +92,19 @@ def sign_up():
     }
     db.user.insert_one(doc)
 
+    print(doc)
+
     if 'access_token' in session:
+        print('access_token')
         payload = {
             'uuid': str(user_uuid),
             'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 6),  # 로그인 6시간 유지
             'type': 'social'
         }
+        print(payload)
         # 시크릿 키를 이용하여 암호화
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        print(token)
         return {'result': 'success', 'status_code': 201, "token": token}
     else:
         return {'result': 'success', 'status_code': 201}
