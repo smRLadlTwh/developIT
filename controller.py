@@ -12,6 +12,7 @@ else:
     CLIENT_SECRET = config.CLIENT_SECRET
     REDIRECT_URI = config.REDIRECT_URI
 
+
 class Oauth:
     def __init__(self):
         self.auth_server = "https://kauth.kakao.com%s"
