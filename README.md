@@ -1,11 +1,6 @@
 # DevIT
 느낌있조 프로젝트
 
-<p align="center">
-<img src='https://user-images.githubusercontent.com/84092014/168056760-e78cebd2-4e55-4940-82a4-05fe763291db.png' style='width:150px;'>
-</p>
-
-
 ### 🔗 라이브
 [http://devit.shop/](http://devit.shop/)
 <p align="center">
@@ -29,8 +24,10 @@
 [https://immediate-crown-e3a.notion.site/IT-S-A-11c7866f30ac4f47b975ae5331c47588](https://www.notion.so/IT-S-A-11c7866f30ac4f47b975ae5331c47588)
 
 ### ☁️ Environment
-Python 3.8
-<img width="667" alt="스크린샷 2022-05-12 오후 8 01 23" src="https://user-images.githubusercontent.com/84092014/168059038-2f2edfe7-bc5c-43ea-9b95-4e65258dcd39.png">
+Python 3.8 <br/>
+<p align="center">
+<img width="400px" alt="스크린샷 2022-05-12 오후 8 01 23" src="https://user-images.githubusercontent.com/84092014/168059038-2f2edfe7-bc5c-43ea-9b95-4e65258dcd39.png">
+  </p>
 
 ### + Prerequisite
 pip install flask-uuid <br/>
