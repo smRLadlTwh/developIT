@@ -152,6 +152,11 @@ def board_show():
             count = len(list(
                 db.board.find({}, {'_id': False}).sort('board.created_at', -1)))
 
+        favorites = user_info['favorites']
+        favorite_name = []
+        for favorite in favorites:
+            favorite_name.append(favorite['board_uuid'])
+
         now = datetime.datetime.now()
         time = now.strftime('%Y-%m-%d %H:%M:%S')
 
@@ -160,7 +165,8 @@ def board_show():
             'time': time,
             'total': count,
             'data': {
-                'boards': boards
+                'boards': boards,
+                'favorites': favorite_name,
             },
             'status_code': 201
         }
