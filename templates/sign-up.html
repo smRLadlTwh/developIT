@@ -87,7 +87,7 @@
         }
 
         function sign_up() {
-            if ($("#help-id-login").text !== '올바른 이메일입니다.') {
+            if ($("#help-id-login").text() !== '올바른 이메일입니다.') {
                 $('html').scrollTop(0);
                 $('#email-check-alert').prop('hidden', false);
                 setTimeout(function () {
