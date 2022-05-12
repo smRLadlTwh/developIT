@@ -86,12 +86,13 @@
 
     <script>
 
-
         $(document).ready(function () {
-            {% if token %}
-            $.cookie('token', '{{ token }}', {path: '/'})
-            {% endif %}
             let params = new URLSearchParams(window.location.search);
+            if (params.get('token') != null) {
+                let token = params.get("token");
+                 $.cookie('token', token, {path: '/'})
+                 location.href = '/board?page=1';
+            }
             let page = 1;
             if (params.get('page') != null) {
                 page = parseInt(params.get("page"));

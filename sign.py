@@ -20,7 +20,6 @@ else:
 db = client.developITdb
 
 
-
 # 소셜 로그인
 def social_sign_in(email):
     exists = bool(db.user.find_one({"user.e_mail": email}))
@@ -28,7 +27,8 @@ def social_sign_in(email):
         user = db.user.find_one({'user.e_mail': email})
         payload = {
             'uuid': str(user['user']['uuid']),
-            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 6)  # 로그인 6시간 유지
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 6),  # 로그인 6시간 유지
+            'type': 'social'
         }
         # 시크릿 키를 이용하여 암호화
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
@@ -49,7 +49,8 @@ def sign_in():
     if user is not None:
         payload = {
             'uuid': str(user['user']['uuid']),
-            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 6)  # 로그인 6시간 유지
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 6),  # 로그인 6시간 유지
+            'type': 'general'
         }
         # 시크릿 키를 이용하여 암호화
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
@@ -87,7 +88,8 @@ def sign_up():
     if 'access_token' in session:
         payload = {
             'uuid': str(user_uuid),
-            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 6)  # 로그인 6시간 유지
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 6),  # 로그인 6시간 유지
+            'type': 'social'
         }
         # 시크릿 키를 이용하여 암호화
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')

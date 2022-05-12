@@ -22,6 +22,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
 
     <style>
         .alert {
@@ -34,6 +35,23 @@
         .alert-text {
             width: max-content;
             margin: auto;
+        }
+
+        .kakao-logout {
+            width: max-content;
+            float: left;
+        }
+
+        .left-float {
+            float: left;
+        }
+
+        .kakao-text {
+            margin-left: 5px;
+        }
+
+        .kakao-img {
+            margin-top: 15px;
         }
     </style>
 
@@ -54,12 +72,17 @@
             <li class="menu-item">
                 <a href="/profile"><i class="fa fa-user" aria-hidden="true"></i> 프로필</a>
             </li>
-            <li class="menu-item">
-                <a onclick="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i> 로그아웃</a>
-            </li>
-            <li class="menu-item">
-                <a href="#">카카오 로그아웃</a>
-            </li>
+            {% if type == 'general' %}
+                <li class="menu-item">
+                    <a onclick="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i> 로그아웃</a>
+                </li>
+            {% endif %}
+            {% if type == 'social' %}
+                <li class="menu-item left-float kakao-logout">
+                    <a class="kakao-text" onclick="social_logout()"><img src='https://api.iconify.design/vs/kakaotalk.svg'
+                                                        class="left-float kakao-img"/>카카오 로그아웃</a>
+                </li>
+            {% endif %}
         </ul>
     </nav>
 </div><!-- row-content -->

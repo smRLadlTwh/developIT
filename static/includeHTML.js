@@ -44,3 +44,8 @@ function logout() {
         window.location.href = "/";
     }, 2000);
 }
+
+function social_logout() {
+    $.removeCookie('token', {path: '/'});
+    window.location.replace('/oauth/logout');
+}
