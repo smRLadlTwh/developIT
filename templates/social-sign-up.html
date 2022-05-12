@@ -11,6 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gamja+Flower&family=Jua&display=swap"
           rel="stylesheet">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
     <!------ Include the above in your HEAD tag ---------->
 
     <style>
@@ -29,21 +32,24 @@
     </style>
 
     <script>
-        function social_sign_up(){
+        function social_sign_up() {
             let name = $("#k_name").val()
-            let phone_number =  $("#k_phone_number").val()
+            let phone_number = $("#k_phone_number").val()
 
-             $.ajax({
+            $.ajax({
                 type: "POST",
                 url: `/api/sign-up`,
                 data: {
-                    name : name,
+                    name: name,
                     phone_number: phone_number
                 },
                 success: function (response) {
-                     window.location.href = "/board?page=1"
+                    let token = response['token']
+                    $.cookie('token', token, {path: '/'})
+                    window.location.href = "/board?page=1"
+
                 }
-             })
+            })
         }
 
     </script>
@@ -91,7 +97,8 @@
                                 </div>
 
                                 <div class="form-group ">
-                                    <button type="button" class="btn btn-primary btn-lg btn-block login-button" onclick="social_sign_up()">
+                                    <button type="button" class="btn btn-primary btn-lg btn-block login-button"
+                                            onclick="social_sign_up()">
                                         입력하기
                                     </button>
                                 </div>

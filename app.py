@@ -7,6 +7,7 @@ import requests
 import board
 import favorites
 import sign
+import data_statistics
 from controller import Oauth
 
 app = Flask(__name__)
@@ -91,6 +92,7 @@ def board_upload_fail_page():
 # 페이지 내 header 부분 반환
 @app.route("/header")
 def header():
+    print('------header page request------')
     login_type = user_type()
     return render_template('header.html', type=login_type)
 
@@ -240,6 +242,13 @@ def sign_up():
 @app.route('/api/email-duplicate-check', methods=['POST'])
 def email_duplicate_check():
     response = sign.email_duplicate_check()
+    return jsonify(response)
+
+
+# 통계 API
+@app.route('/api/statistics', methods=['GET'])
+def statistics():
+    response = data_statistics.statistics()
     return jsonify(response)
 
 
