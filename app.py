@@ -116,6 +116,13 @@ def board_favorite_write():
     response = favorites.write_favorite(par)
     return jsonify(response)
 
+@app.route('/api/favorite/delete', methods=['POST'])
+def board_favorite_delete():
+    par = request.form['board_id']
+    print("par : " + par)
+    response = favorites.delete_favorite(par)
+    return jsonify(response)
+
 
 # 게시글 전체 보여주기 API
 @app.route("/api/board", methods=['GET'])

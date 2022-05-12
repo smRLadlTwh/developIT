@@ -73,6 +73,39 @@ def write_favorite(par):
         return {"result": "success", "status_code": 400, "error_message": 'EXPIRED_TOKEN'}
 
 
+# 즐겨찾기 삭제 API
+def delete_favorite(par):
+    token = request.cookies.get('token')
+
+    if token is None:
+        abort(404, '토큰 정보가 존재하지 않습니다.')
+
+    try:
+        # 유저 정보 식별
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.user.find_one({"user.uuid": payload["uuid"]})
+
+        # 게시글 아이디 받아옴
+        board_uuid = str(par)
+
+        # 업데이트 될 즐겨찾기 목록
+        new_favorite = []
+
+        # 전체 즐겨찾기 정보들 받아옴 -> 즐겨찾기에 해제하기 위함
+        total_favorite = user_info['favorites']
+
+        # 해제하려는 게시글을 제외하고는 새로운 리스트에 추가
+        for favorite in total_favorite:
+            if favorite['board_uuid'] != board_uuid:
+                new_favorite.append(favorite)
+
+        #추가한 리스트로 favorites 리스트 업데이트
+        db.user.update_one({'user.uuid': str(payload["uuid"])}, {'$set': {'favorites': new_favorite}})
+
+        return {"result": "success", "status_code": 201}
+    except jwt.ExpiredSignatureError:
+        return {"result": "success", "status_code": 400, "error_message": 'EXPIRED_TOKEN'}
+
 # 즐겨찾기 목록 불러오는 API
 def show_favorite():
     token = request.cookies.get('token')
