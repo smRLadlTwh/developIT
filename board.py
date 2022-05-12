@@ -152,37 +152,34 @@ def board_show():
             count = len(list(
                 db.board.find({}, {'_id': False}).sort('board.created_at', -1)))
 
+        favorites = []
+        if user_info.get('favorites') is not None:
+            favorites = user_info['favorites']
+
+        favorite_name = []
+        for favorite in favorites:
+            favorite_name.append(favorite['board_uuid'])
+
         now = datetime.datetime.now()
         time = now.strftime('%Y-%m-%d %H:%M:%S')
         print(user_info)
 
-        if user_info['favorites'] is None:
-            response = {
-                'result': 'success',
-                'time': time,
-                'total': count,
-                'data': {
-                    'boards': boards,
-                    'favorites': []
-                },
-                'status_code': 201
-            }
-        else:
-            favorites = user_info['favorites']
-            favorite_name = []
-            for favorite in favorites:
-                favorite_name.append(favorite['board_uuid'])
+        favorites = user_info['favorites']
+        favorite_name = []
 
-            response = {
-                'result': 'success',
-                'time': time,
-                'total': count,
-                'data': {
-                    'boards': boards,
-                    'favorites': favorite_name,
-                },
-                'status_code': 201
-            }
+        for favorite in favorites:
+            favorite_name.append(favorite['board_uuid'])
+
+        response = {
+            'result': 'success',
+            'time': time,
+            'total': count,
+            'data': {
+                'boards': boards,
+                'favorites': favorite_name,
+            },
+            'status_code': 201
+        }
 
         return response
     except jwt.ExpiredSignatureError:
