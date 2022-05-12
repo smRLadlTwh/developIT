@@ -82,6 +82,15 @@
 
         }
 
+        .favorite {
+            position: absolute;
+            top: 1px;
+            left: 130px;
+        }
+        .card {
+            position: relative;
+        }
+
     </style>
 
     <script>
@@ -152,7 +161,7 @@
 
 
 
-        function favorite(dic) {
+        function favorite_write(dic) {
 
             $.ajax({
                 type: "POST",
@@ -161,7 +170,22 @@
                     board_id : dic //게시글 pk 값
                 },
                 success: function (response) {
-                    console.log(response)
+                    $("#bookmark").load(window.location.href + "#bookmark"); // 화면 과부화를 없애기 위해 특정 태그만 재부팅
+
+                }
+             })
+        }
+
+        function favorite_delete(dic) {
+
+            $.ajax({
+                type: "POST",
+                url: `/api/favorite/delete`,
+                data: {
+                    board_id : dic //게시글 pk 값
+                },
+                success: function (response) {
+                    $("#bookmark").load(window.location.href + "#bookmark"); // 화면 과부화를 없애기 위해 특정 태그만 재부팅
 
                 }
              })
@@ -169,6 +193,7 @@
 
         function boardList(page, searchText) {
             $('#board-list').empty();
+            $('#button-list').empty();
             let pageSize = 5;
 
 
@@ -177,7 +202,9 @@
                 url: `/api/board?page=${page}&pageSize=${pageSize}&search=${searchText}`,
                 data: {},
                 success: function (response) {
+                    console.log(response['data'])
                     let boards = response['data']['boards'];
+                    let favorites = response['data']['favorites']
                     let total = response['total'];
 
                     if (searchText !== '') {
@@ -185,6 +212,7 @@
                     }
 
                     for (let i = 0; i < boards.length; i++) {
+
                         let title = boards[i]['board']['title'];
                         let content = boards[i]['board']['content'];
                         let cost = boards[i]['board']['cost'];
@@ -197,12 +225,19 @@
 
                         let tmp_html = ``;
 
-                        if (image_url === 'default_image.jpeg') {
+                        if(favorites.includes(board_id)) {
+                            if (image_url === 'default_image.jpeg') {
                             tmp_html = `
                         <article class="clear-after white-card">
-                            <div class="column three">
+                            <div class="column three card">
+
                                 <img src="/static/logo.png" alt="" class="thumbnail">
-                                <button class="btn1" type="button" onclick="favorite('${board_id}')">즐겨찾기</button>
+                                <div id="bookmark">
+                                <button class="favorite" style="border: 0; outline: 0; background-color:transparent" onclick="favorite_delete('${board_id}')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                                        <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
+                                    </svg>
+                                </button></div>
                             </div>
                             <div class="column nine last">
                                 <h2><a href="#">${title}</a></h2>
@@ -219,9 +254,14 @@
                         } else {
                             tmp_html = `
                         <article class="clear-after white-card">
-                            <div class="column three">
-                                <img src="https://devit-bucket.s3.ap-northeast-2.amazonaws.com/${image_url}" alt="" class="thumbnail">
-                                                                <button class="btn1" type="button" onclick="favorite('${board_id}')">즐겨찾기</button>
+                            <div class="column three card">
+                            <img src="https://devit-bucket.s3.ap-northeast-2.amazonaws.com/${image_url}" alt="" class="thumbnail">
+                            <div id="bookmark">
+                                <button class="favorite" style="border: 0; outline: 0; background-color:transparent" onclick="favorite_delete('${board_id}')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                                        <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
+                                    </svg>
+                                </button></div></div>
 
                             <div class="column nine last">
                                 <h2><a href="#">${title}</a></h2>
@@ -236,6 +276,60 @@
                         </article>
                         `;
                         }
+                        } else {
+                            if (image_url === 'default_image.jpeg') {
+                            tmp_html = `
+                        <article class="clear-after white-card">
+                            <div class="column three card">
+                                <img src="/static/logo.png" alt="" class="thumbnail">
+<div id="bookmark">
+                            <button class="favorite" style="border: 0; outline: 0; background-color:transparent" onclick="favorite_write('${board_id}')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                                </svg>
+                            </button></div>
+                            </div>
+                            <div class="column nine last">
+                                <h2><a href="#">${title}</a></h2>
+                                <h5 class="meta-post">
+                                    <p class="writer">작성자 : ${writer_name}
+                                        <time datetime="2013-11-10">[${created_at}]</time>
+                                    </p>
+                                </h5>
+                                <p> ${cost} 원 </p>
+                                <p>${content}</p>
+                            </div><!-- column nine -->
+                        </article>
+                        `;
+                        } else {
+                            tmp_html = `
+                        <article class="clear-after white-card">
+                            <div class="column three card">
+
+                                <img src="https://devit-bucket.s3.ap-northeast-2.amazonaws.com/${image_url}" alt="" class="thumbnail">
+                                    <div id="bookmark">
+                                                                <button class="favorite" style="border: 0; outline: 0; background-color:transparent" onclick="favorite_write('${board_id}')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                                </svg>
+                            </button></div>
+</div>
+
+                            <div class="column nine last">
+                                <h2><a href="#">${title}</a></h2>
+                                <h5 class="meta-post">
+                                    <p class="writer">작성자 : ${writer_name} -
+                                        <time datetime="2013-11-10">${created_at}</time>
+                                    </p>
+                                </h5>
+                                <p> ${cost} 원 </p>
+                                <p>${content}</p>
+                            </div><!-- column nine -->
+                        </article>
+                        `;
+                        }
+                        }
+
 
                         $('#board-list').append(tmp_html);
                     }

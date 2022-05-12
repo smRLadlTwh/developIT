@@ -15,10 +15,32 @@
         * {
             font-family: 'Do Hyeon', sans-serif;
         }
+        .favorite {
+            position: absolute;
+            top: 1px;
+            left: 130px;
+        }
+        .image_card {
+            position: relative;
+        }
     </style>
 
 
     <script>
+        function favorite_delete(dic) {
+
+            $.ajax({
+                type: "POST",
+                url: `/api/favorite/delete`,
+                data: {
+                    board_id : dic //게시글 pk 값
+                },
+                success: function (response) {
+                     location.reload();// 화면 과부화를 없애기 위해 특정 태그만 재부팅
+                }
+             })
+        }
+
         $(function () {
             $('#profile-bar').empty();
             $('#favorite-bar').empty();
@@ -48,6 +70,7 @@
 
                     if (favorites.length) {
                         for (let i = 0; i < favorites.length; i++) {
+                            let uuid = favorites[i]['board_uuid']
                             let title = favorites[i]['title']
                             let writer = favorites[i]['writer_name']
                             let cost = favorites[i]['cost']
@@ -59,11 +82,18 @@
                             if (image_url === 'default_image.jpeg') {
                                 tmp_html = `
                         <div class="col" onclick="" style="width: 16rem; padding-left: 5px">
-                        <div class="card h-100">
-                            <img class="no-border img-thumbnail"
+                            <div class="card h-100">
+                                <div class="image_card">
+                                <img class="no-border img-thumbnail"
                                  src="/static/logo.png"
                                  alt="이미지">
-                            <div class="card-body">
+                                <div class="favorite">
+                                    <button style="border: 0; outline: 0; background-color:transparent" onclick="favorite_delete('${uuid}')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                                            <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
+                                        </svg>
+                                    </button></div></div>
+                            <div class="card-body" style="margin-top: 20px">
                                 <a target="_blank" class="card-title">${title}</a>
                                 <p class="card-text">${writer}</p>
                                 <p class="card-text comment">${cost}원</p>
@@ -74,11 +104,18 @@
                             } else {
                                 tmp_html = `
                         <div class="col" onclick="" style="width: 16rem; padding-left: 5px">
-                        <div class="card h-100">
-                            <img class="no-border img-thumbnail"
-                                 src="${image_url}"
+                            <div class="card h-100">
+                                <div class="image_card">
+                                <img class="no-border img-thumbnail"
+                                 src="https://devit-bucket.s3.ap-northeast-2.amazonaws.com/${image_url}"
                                  alt="이미지">
-                            <div class="card-body">
+                                <div class="favorite">
+                                    <button style="border: 0; outline: 0; background-color:transparent" onclick="favorite_delete('${uuid}')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                                            <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
+                                        </svg>
+                                    </button></div></div>
+                            <div class="card-body" style="margin-top: 20px">
                                 <a target="_blank" class="card-title">${title}</a>
                                 <p class="card-text">${writer}</p>
                                 <p class="card-text comment">${cost}원</p>
