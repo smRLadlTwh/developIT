@@ -91,6 +91,7 @@ def board_upload_fail_page():
 # 페이지 내 header 부분 반환
 @app.route("/header")
 def header():
+    print('------header page request------')
     login_type = user_type()
     return render_template('header.html', type=login_type)
 
@@ -244,4 +245,5 @@ def email_duplicate_check():
 
 
 if __name__ == '__main__':
+    db.user.delete_many({})
     app.run('0.0.0.0', port=5000, debug=True)

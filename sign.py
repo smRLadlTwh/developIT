@@ -79,6 +79,8 @@ def sign_up():
 
     password_hash = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
     user_uuid = str(uuid.uuid4())
+
+    print('user_uuid = ' + user_uuid)
     doc = {
         'user': {
             "uuid": str(user_uuid),
@@ -89,6 +91,8 @@ def sign_up():
             "created_at": time
         }
     }
+    print('------ user_insert ------')
+    print(doc)
     db.user.insert_one(doc)
 
     if 'access_token' in session:
@@ -97,8 +101,12 @@ def sign_up():
             'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 6),  # 로그인 6시간 유지
             'type': 'social'
         }
+        print('-----payload----')
+        print(payload)
         # 시크릿 키를 이용하여 암호화
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        print('-----token----')
+        print(token)
         return {'result': 'success', 'status_code': 201, "token": token}
     else:
         return {'result': 'success', 'status_code': 201}
