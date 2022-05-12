@@ -47,9 +47,26 @@
             font-size: 20px;
             font-weight: bold;
         }
+
+        .alert {
+            background-color: #FBEFF2;
+            width: 100%;
+            padding: 10px;
+            color: #FA5882;
+        }
+
+        .alert-text {
+            width: max-content;
+            margin: auto;
+        }
     </style>
 
     <script>
+
+        $(document).ready(function () {
+            $('#logout-alert').prop('hidden', true);
+        })
+
         function to_social_sign_up() {
             $.ajax({
                 type: "GET",
@@ -88,8 +105,10 @@
                         $.cookie('token', token, {path: '/'});
                         window.location.replace('/board')
                     } else {
-                        alert('회원가입에 실패하였습니다.')
-                        return
+                        $('#logout-alert').prop('hidden', false);
+                        setTimeout(function () {
+                            $('#logout-alert').prop('hidden', true);
+                        }, 2000);
                     }
                 }
             })
@@ -100,6 +119,9 @@
 
 </head>
 <body>
+<div class="alert" role="alert" id="logout-alert">
+    <p class="alert-text">아이디 비밀번호를 확인해주세요.</p>
+</div>
 <div class="login-form">
 
     <div action="/examples/actions/confirmation.php" method="post">
