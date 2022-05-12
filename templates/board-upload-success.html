@@ -52,7 +52,7 @@
         }
 
         .alarm-logo {
-            width: max-content;
+            width: 200px;
             margin: auto auto 30px;
         }
     </style>
@@ -63,14 +63,21 @@
 <header include-html="/header"></header>
 <main role="main">
     <div class="success-alarm">
-        <img src="/static/example.jpeg" class="alarm-logo"/>
-        <h3 class="alarm-text">게시글을 등록해주셔서 감사합니다.</h3>
-        <h3 class="alarm-text">빠르게 좋은 개발자 어쩌꾸</h3>
-        <a class="button-text" href="/board"> [작성된 게시글 보러가기] </a>
+        <img src="/static/logo.png" class="alarm-logo"/>
+        <h3 class="alarm-text">구인 글을 등록해주셔서 감사합니다.</h3>
+        <h3 class="alarm-text">좋은 개발자를 찾을 수 있도록 DevIT에서 노력하겠습니다! </h3>
+        <a class="button-text" href="/board"> [작성된 구인 글 보러가기] </a>
     </div>
 </main><!-- main -->
 
 <footer include-html="/footer" role="contentinfo"></footer>
+<script>
+    includeHTML(function () {
+        includeRouter(function () {
+            // do something in the future
+        });
+    });
+</script>
 </body>
 
 </html>
