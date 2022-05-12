@@ -46,11 +46,24 @@
             width: max-content;
             margin: auto;
         }
+
+        .alert-red {
+            background-color: #FBEFF2;
+            width: 100%;
+            padding: 10px;
+            color: #FA5882;
+        }
+
+        .alert-red-text {
+            width: max-content;
+            margin: auto;
+        }
     </style>
     <script>
 
         $(document).ready(function () {
             $('#logout-alert').prop('hidden', true);
+            $('#email-check-alert').prop('hidden', true);
         })
 
         function check_dup() {
@@ -74,6 +87,14 @@
         }
 
         function sign_up() {
+            if ($("#help-id-login").text !== '올바른 이메일입니다.') {
+                $('html').scrollTop(0);
+                $('#email-check-alert').prop('hidden', false);
+                setTimeout(function () {
+                    $('#email-check-alert').prop('hidden', true);
+                }, 2000);
+                return ;
+            }
             let email = $("#email").val()
             let password = $("#password").val()
             let confirm = $("#confirm").val()
@@ -111,6 +132,9 @@
 
 </head>
 <body>
+<div class="alert-red" role="alert" id="email-check-alert">
+    <p class="alert-red-text">이메일 중복 체크를 해주세요.</p>
+</div>
 <div class="alert" role="alert" id="logout-alert">
     <p class="alert-text">회원가입 성공</p>
 </div>
